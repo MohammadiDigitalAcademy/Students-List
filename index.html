@@ -3,131 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-
-    <title>Mohammadi Digital Academy </title>
+    <title>Mohammadi Digital Academy</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
         body {
-            
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
             text-align: center;
-            background-color: #f8f9fa;
+            background: #1e3c72;
+            color: white;
         }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
         .logo {
-    position: absolute;
-    top: -50px; /* Moves the logo 5cm up (approx. 50px) */
-    left: 50px;
-    width: 200px; 
-    height: auto;
-}
-
-@media (max-width:800px) {
-    .logo {
-        top: -30px; /* Moves it slightly down for better alignment */
-        left: 10px; /* Adjust left margin */
-        width: 100px; /* Reduce size on small screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .logo {
-        top: -30px; /* Adjust position for very small screens */
-        left: 10px;
-        width: 100px; /* Further reduce size */
-    }
-}
+            width: 200px;
+            margin: 20px 0;
+        }
 
         h1 {
-            color: #333;
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-size: 30px;
-            color: rgb(207, 156, 89);
+            color: #ffcc00;
+            font-size: 32px;
+            font-weight: 600;
         }
+
+        h2 {
+            color: #e0e0e0;
+            font-size: 24px;
+        }
+
         input {
-            width: 60%;
-            padding: 10px;
+            width: 90%;
+            padding: 12px;
             margin: 10px 0;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
             font-size: 16px;
+            outline: none;
+            background: white;
+            color: black;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+            color: black;
         }
+
         th, td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
         }
+
         th {
-            background-color: #007bff;
-            color: white;
+            background-color: #ffcc00;
+            color: black;
         }
-        tr:hover {
-            background-color: #f1f1f1;
+
+        .contact {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .motto {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 10px;
+        }
+
+        .clickable {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .certificate-text {
+            font-size: 18px;
+            color: black;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
-    <img src="./logo.png" alt="Mohammadi Digital Academy Logo" class="logo">
+    <div class="container">
+        <img src="./logo.png" alt="Mohammadi Digital Academy Logo" class="logo">
+        <h1>Mohammadi Digital Academy</h1>
+        <h2>Students List</h2>
+        <input type="text" id="searchBox" placeholder="Enter your ID or Name..." onkeyup="searchStudent()">
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="clickable" onclick="showCertificate('Alibaba Naaseri', 'QB-2501')">Alibaba Naaseri</span></td><td>QB-2501</td><td>QuickBooks Desktop 2024</td><td>2025/1/1</td></tr>
+                <tr><td><span class="clickable" onclick="alert('Details for Ahmad Murid Noori')">Ahmad Murid Noori</span></td><td>QB-2502</td><td>QuickBooks Desktop 2024</td><td>2025/1/1</td></tr>
+                <tr><td><span class="clickable" onclick="alert('Details for Ahmad Ozair Sahak')">Ahmad Ozair Sahak</span></td><td>QB-2503</td><td>QuickBooks Desktop 2024</td><td>2025/1/1</td></tr>
+                <tr><td><span class="clickable" onclick="alert('Details for Wasiq Ahmad Wadeed')">Wasiq Ahmad Wadeed</span></td><td>QB-2504</td><td>QuickBooks Desktop 2024</td><td>2025/1/1</td></tr>
+            </tbody>
+        </table>
+        <div class="contact">
+            <p>WhatsApp: +93788326950</p>
+            <p>Email 1: Mohammadidigitalacademy@gmail.com</p>
+            <p>Email 2: muhammadimoneebullah1@gmail.com</p>
+        </div>
+        <div class="motto">We Deliver What We Promise</div>
+    </div>
 
-    <h1>Mohammadi Digital Academy </h1>
-    <h2>Students List</h2>
-    <input type="text" id="searchBox" placeholder="Search by name, ID, or class..." onkeyup="searchStudents()">
-
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>ID</th>
-                <th>Class</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody id="studentTable">
-            <tr>
-                <td>Alibaba Naaseri</td>
-                <td>QB-2501</td>
-                <td>QuickBooks Desktop 2024</td>
-                <td>2025/1/1</td>
-            </tr>
-            <tr>
-                <td>Ahmad Murid Noori</td>
-                <td>QB-2502</td>
-                <td>QuickBooks Desktop 2024</td>
-                <td>2025/1/1</td>
-            </tr>
-            <tr>
-                <td>Ahmad Ozair Sahak</td>
-                <td>QB-2503</td>
-                <td>QuickBooks Desktop 2024</td>
-                <td>2025/1/1</td>
-            </tr>
-            <tr>
-                <td>Wasiq Ahmad Wadeed </td>
-                <td>QB-2504</td>
-                <td>QuickBooks Desktop 2024</td>
-                <td>2025/1/1</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="certificate-text" id="certificateContent">
+                <!-- Certificate content will be injected here -->
+            </div>
+        </div>
+    </div>
 
     <script>
-        function searchStudents() {
+        function searchStudent() {
             let input = document.getElementById("searchBox").value.toLowerCase();
-            let rows = document.getElementById("studentTable").getElementsByTagName("tr");
+            let rows = document.querySelectorAll("#studentTable tbody tr");
+            let found = false;
+            
+            rows.forEach(row => {
+                let rowData = row.innerText.toLowerCase();
+                if (rowData.includes(input) && input.trim() !== "") {
+                    row.style.display = "table-row";
+                    found = true;
+                } else {
+                    row.style.display = "none";
+                }
+            });
+            
+            document.getElementById("studentTable").style.display = found ? "table" : "none";
+        }
 
-            for (let i = 0; i < rows.length; i++) {
-                let rowData = rows[i].innerText.toLowerCase();
-                rows[i].style.display = rowData.includes(input) ? "" : "none";
+        function showCertificate(name, id) {
+            // Create certificate content dynamically
+            let content = `
+                <h1>MDA</h1>
+                <h2>Mohammadi Digital Academy</h2>
+                <h3>CERTIFICATE OF COMPLETION</h3>
+                <p><strong>${name}</strong> has successfully completed the QuickBooks 2024 Course and has acquired the necessary skills in utilizing accounting software and business management tools.</p>
+                <p><strong>Web.ID:</strong> ${id}</p>
+                <p><strong>DATE:</strong> 2025/2/1</p>
+                <p><strong>INSTRUCTOR:</strong> Moneebullah Mohammadi</p>
+            `;
+
+            document.getElementById("certificateContent").innerHTML = content;
+            document.getElementById("certificateModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("certificateModal").style.display = "none";
+        }
+
+        // Close the modal if clicked outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("certificateModal")) {
+                closeModal();
             }
         }
     </script>
-
 </body>
 </html>
