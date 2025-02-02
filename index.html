@@ -6,6 +6,7 @@
     <title>Mohammadi Digital Academy</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        /* Existing styles remain unchanged */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
         body {
@@ -220,6 +221,105 @@
         .clickable:hover {
             color: #ffcc00;
         }
+
+        /* Feedback Button and Modal Styles */
+        .feedback-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .feedback-btn:hover {
+            background: #e6b800;
+            transform: scale(1.1);
+        }
+
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            color: black;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .feedback-content h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .feedback-content input, .feedback-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .feedback-content textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .feedback-content button {
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .feedback-content button:hover {
+            background: #e6b800;
+        }
+
+        .close-feedback {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .close-feedback:hover {
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -263,7 +363,7 @@
         <div class="motto">We Deliver What We Promise</div>
     </div>
 
-    <!-- Modal -->
+    <!-- Certificate Modal -->
     <div id="certificateModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -273,7 +373,25 @@
         </div>
     </div>
 
+    <!-- Feedback Button and Modal -->
+    <button class="feedback-btn" onclick="openFeedback()">&#128172;</button>
+    <div class="feedback-modal" id="feedbackModal">
+        <div class="feedback-content">
+            <span class="close-feedback" onclick="closeFeedback()">&times;</span>
+            <h2>Feedback Form</h2>
+            <form id="feedbackForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="text" id="webId" placeholder="Web ID" required>
+                <input type="text" id="class" placeholder="Class" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <textarea id="feedback" placeholder="Your feedback" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Existing JavaScript functions remain unchanged
         function searchStudent() {
             let input = document.getElementById("searchBox").value.toLowerCase();
             let rows = document.querySelectorAll("#studentTable tbody tr");
@@ -318,6 +436,28 @@
                 closeModal();
             }
         }
+
+        // Feedback Modal Functions
+        function openFeedback() {
+            document.getElementById('feedbackModal').style.display = 'flex';
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedbackModal').style.display = 'none';
+        }
+
+        document.getElementById("feedbackForm").onsubmit = function(event) {
+            event.preventDefault();
+            let name = document.getElementById("name").value;
+            let webId = document.getElementById("webId").value;
+            let className = document.getElementById("class").value;
+            let email = document.getElementById("email").value;
+            let feedback = document.getElementById("feedback").value;
+            
+            let mailtoLink = `mailto:mohammadidigitalacademy@gmail.com?subject=Feedback from ${name}&body=Name: ${name}%0D%0AWeb ID: ${webId}%0D%0AClass: ${className}%0D%0AEmail: ${email}%0D%0AFeedback: ${feedback}`;
+            window.location.href = mailtoLink;
+            closeFeedback();
+        };
     </script>
 </body>
 </html>
