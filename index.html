@@ -226,7 +226,7 @@
         .feedback-btn {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px; /* Moved to the left side */
             background: #ffcc00;
             color: black;
             border: none;
@@ -267,6 +267,7 @@
             color: black;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
+            border: 2px solid #ffcc00;
         }
 
         .feedback-content h2 {
@@ -276,7 +277,7 @@
             margin-bottom: 20px;
         }
 
-        .feedback-content input, .feedback-content textarea {
+        .feedback-content input, .feedback-content select, .feedback-content textarea {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -381,7 +382,16 @@
             <h2>Feedback Form</h2>
             <form id="feedbackForm" action="https://formspree.io/f/mdkazwbv" method="POST">
                 <input type="text" id="name" name="name" placeholder="Your Name" required>
-                <input type="text" id="webId" name="webId" placeholder="Web ID" required>
+                <select id="webId" name="webId" required>
+                    <option value="" disabled selected>Select Web ID</option>
+                    <option value="QB-2501">QB-2501</option>
+                    <option value="QB-2502">QB-2502</option>
+                    <option value="QB-2503">QB-2503</option>
+                    <option value="QB-2504">QB-2504</option>
+                    <option value="QB-2505">QB-2505</option>
+                    <option value="QB-2506">QB-2506</option>
+                    <option value="QB-2507">QB-2507</option>
+                </select>
                 <input type="text" id="class" name="class" placeholder="Class" required>
                 <input type="email" id="email" name="email" placeholder="Email" required>
                 <textarea id="feedback" name="feedback" placeholder="Your feedback" required></textarea>
@@ -425,10 +435,12 @@
 
             document.getElementById("certificateContent").innerHTML = content;
             document.getElementById("certificateModal").style.display = "block";
+            document.querySelector(".feedback-btn").style.display = "none"; // Hide feedback icon
         }
 
         function closeModal() {
             document.getElementById("certificateModal").style.display = "none";
+            document.querySelector(".feedback-btn").style.display = "block"; // Show feedback icon
         }
 
         window.onclick = function(event) {
