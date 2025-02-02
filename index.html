@@ -379,12 +379,12 @@
         <div class="feedback-content">
             <span class="close-feedback" onclick="closeFeedback()">&times;</span>
             <h2>Feedback Form</h2>
-            <form id="feedbackForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="text" id="webId" placeholder="Web ID" required>
-                <input type="text" id="class" placeholder="Class" required>
-                <input type="email" id="email" placeholder="Email" required>
-                <textarea id="feedback" placeholder="Your feedback" required></textarea>
+            <form id="feedbackForm" action="https://formspree.io/f/mdkazwbv" method="POST">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                <input type="text" id="webId" name="webId" placeholder="Web ID" required>
+                <input type="text" id="class" name="class" placeholder="Class" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <textarea id="feedback" name="feedback" placeholder="Your feedback" required></textarea>
                 <button type="submit">Submit</button>
             </form>
         </div>
@@ -446,17 +446,29 @@
             document.getElementById('feedbackModal').style.display = 'none';
         }
 
+        // Formspree Submission Handling
         document.getElementById("feedbackForm").onsubmit = function(event) {
             event.preventDefault();
-            let name = document.getElementById("name").value;
-            let webId = document.getElementById("webId").value;
-            let className = document.getElementById("class").value;
-            let email = document.getElementById("email").value;
-            let feedback = document.getElementById("feedback").value;
-            
-            let mailtoLink = `mailto:mohammadidigitalacademy@gmail.com?subject=Feedback from ${name}&body=Name: ${name}%0D%0AWeb ID: ${webId}%0D%0AClass: ${className}%0D%0AEmail: ${email}%0D%0AFeedback: ${feedback}`;
-            window.location.href = mailtoLink;
-            closeFeedback();
+            let form = event.target;
+            let formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert("Thank you for your feedback!");
+                    closeFeedback();
+                    form.reset();
+                } else {
+                    alert("Oops! Something went wrong. Please try again.");
+                }
+            }).catch(error => {
+                alert("Oops! Something went wrong. Please try again.");
+            });
         };
     </script>
 </body>
