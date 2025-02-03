@@ -222,6 +222,26 @@
             color: black;
         }
 
+        /* Style for the "X" button in the bottom right corner */
+        .close-bottom-right {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #ffcc00;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .close-bottom-right:hover {
+            background: #e6b800;
+        }
+
         @media only screen and (max-width: 600px) {
             .certificate-text {
                 font-size: 16px;
@@ -252,14 +272,14 @@
         .feedback-btn {
             position: fixed;
             bottom: 20px;
-            left: 20px; /* Moved to the left side */
+            left: 20px;
             background: #ffcc00;
             color: black;
             border: none;
-            padding: 10px; /* Reduced padding */
+            padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 20px; /* Reduced font size */
+            font-size: 20px;
             z-index: 1000;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, background 0.3s ease;
@@ -285,7 +305,7 @@
 
         .feedback-content {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
             width: 90%;
             max-width: 400px;
@@ -294,6 +314,8 @@
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
             border: 2px solid #ffcc00;
+            overflow-y: auto;
+            max-height: 80vh;
         }
 
         .feedback-content h2 {
@@ -405,6 +427,8 @@
             <div class="certificate-text" id="certificateContent">
                 <!-- Certificate content will be injected here -->
             </div>
+            <!-- Add the "X" button in the bottom right corner -->
+            
         </div>
     </div>
 
@@ -413,43 +437,43 @@
     <div class="feedback-modal" id="feedbackModal">
         <div class="feedback-content">
             <span class="close-feedback" onclick="closeFeedback()">&times;</span>
-            <h2>Feedback Form</h2>
+            <h2>فورم ارزیابی</h2>
+            <p>این فورم برای ارزیابی کیفیت خدمات ارائه شده است. لطفاً بازخورد صادقانه خود را در مورد روش‌های تدریس و سیستم ما ارائه دهید.</p>
             <form id="feedbackForm" action="https://formspree.io/f/mdkazwbv" method="POST">
-                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                <input type="text" id="name" name="name" placeholder="نام شما" required>
                 <div class="dropdown">
-                    <input type="text" id="webId" placeholder="Select Web ID" onkeyup="filterWebId()" autocomplete="off" required>
+                    <input type="text" id="webId" placeholder="انتخاب Web ID" onkeyup="filterWebId()" autocomplete="off" required>
                     <div id="webIdDropdown" class="dropdown-content"></div>
                 </div>
-                <input type="text" id="class" name="class" placeholder="Class" required>
-                <input type="email" id="email" name="email" placeholder="Email" required>
-                <textarea id="feedback" name="feedback" placeholder="Your feedback" required></textarea>
+                <input type="text" id="class" name="class" placeholder="صنف" required>
+                <input type="email" id="email" name="email" placeholder="ایمیل" required>
 
-                <!-- Instructor Evaluation Questions -->
-                <h3>Instructor Evaluation</h3>
-                <label>1. Are you satisfied with the instructor’s teaching method?</label>
-                <select name="instructor_satisfaction" required>
-                    <option value="Weak">Weak</option>
-                    <option value="Average">Average</option>
-                    <option value="High">High</option>
+                <h3>ارزیابی استاد</h3>
+                <p> آیا از روش تدریس استاد رضایت دارید؟</p>
+                <select name="teaching_method" required>
+                    <option value="ضعیف">ضعیف</option>
+                    <option value="متوسط">متوسط</option>
+                    <option value="عالی">عالی</option>
                 </select>
 
-                <label>2. Did the instructor explain the lesson clearly?</label>
-                <select name="lesson_clarity" required>
-                    <option value="Weak">Weak</option>
-                    <option value="Average">Average</option>
-                    <option value="High">High</option>
+                <p> آیا استاد درس را به‌ طور واضح توضیح داد؟</p>
+                <select name="clarity" required>
+                    <option value="ضعیف">ضعیف</option>
+                    <option value="متوسط">متوسط</option>
+                    <option value="عالی">عالی</option>
                 </select>
 
-                <label>3. Were the study materials useful and helpful?</label>
-                <select name="study_materials" required>
-                    <option value="Weak">Weak</option>
-                    <option value="Average">Average</option>
-                    <option value="High">High</option>
+                <p> آیا مواد آموزشی مفید و کاربردی بودند؟</p>
+                <select name="materials" required>
+                    <option value="ضعیف">ضعیف</option>
+                    <option value="متوسط">متوسط</option>
+                    <option value="عالی">عالی</option>
                 </select>
 
-                <button type="submit">Submit</button>
+                <textarea id="feedback" name="feedback" placeholder="بازخورد شما" required></textarea>
+                <button type="submit">ارسال</button>
             </form>
-            <div id="doneMessage" class="thank-you-message" style="display:none;">Thank you for your feedback!</div>
+            <div id="doneMessage" class="thank-you-message" style="display:none;">انجام شد!</div>
         </div>
     </div>
 
