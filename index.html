@@ -426,6 +426,7 @@
                 <button type="submit">Submit</button>
             </form>
             <div id="thankYouMessage" class="thank-you-message">Thank you for your feedback!</div>
+            <div id="doneMessage" class="thank-you-message" style="display:none;">Done!</div>
         </div>
     </div>
 
@@ -525,6 +526,10 @@
             }).then(response => {
                 if (response.ok) {
                     document.getElementById("thankYouMessage").style.display = "block"; // Show thank you message
+                    document.getElementById("doneMessage").style.display = "block"; // Show Done message
+                    setTimeout(() => {
+                        document.getElementById("doneMessage").style.display = "none"; // Hide Done message after 3 seconds
+                    }, 3000);
                     closeFeedback();
                     form.reset();
                 } else {
