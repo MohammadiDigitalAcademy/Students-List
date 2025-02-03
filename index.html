@@ -423,9 +423,33 @@
                 <input type="text" id="class" name="class" placeholder="Class" required>
                 <input type="email" id="email" name="email" placeholder="Email" required>
                 <textarea id="feedback" name="feedback" placeholder="Your feedback" required></textarea>
+
+                <!-- Instructor Evaluation Questions -->
+                <h3>Instructor Evaluation</h3>
+                <label>1. Are you satisfied with the instructor’s teaching method?</label>
+                <select name="instructor_satisfaction" required>
+                    <option value="Weak">Weak</option>
+                    <option value="Average">Average</option>
+                    <option value="High">High</option>
+                </select>
+
+                <label>2. Did the instructor explain the lesson clearly?</label>
+                <select name="lesson_clarity" required>
+                    <option value="Weak">Weak</option>
+                    <option value="Average">Average</option>
+                    <option value="High">High</option>
+                </select>
+
+                <label>3. Were the study materials useful and helpful?</label>
+                <select name="study_materials" required>
+                    <option value="Weak">Weak</option>
+                    <option value="Average">Average</option>
+                    <option value="High">High</option>
+                </select>
+
                 <button type="submit">Submit</button>
             </form>
-            <div id="doneMessage" class="thank-you-message" style="display:none;">Done!</div>
+            <div id="doneMessage" class="thank-you-message" style="display:none;">Thank you for your feedback!</div>
         </div>
     </div>
 
