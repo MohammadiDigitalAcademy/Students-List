@@ -182,16 +182,14 @@
             position: relative;
         }
 
-        .certificate-text h1 {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1e3c72;
+        .certificate-text {
+            text-align: left; /* Align all text to the left */
         }
 
-        .certificate-text h2 {
-            font-size: 22px;
-            color: #ffcc00;
-            margin-bottom: 10px;
+        .certificate-text h1,
+        .certificate-text h2,
+        .certificate-text h3 {
+            text-align: center; /* Center align title and subtitle */
         }
 
         .certificate-text h3 {
@@ -427,8 +425,6 @@
             <div class="certificate-text" id="certificateContent">
                 <!-- Certificate content will be injected here -->
             </div>
-            <!-- Add the "X" button in the bottom right corner -->
-            
         </div>
     </div>
 
@@ -498,15 +494,17 @@
 
         function showCertificate(name, id) {
             let content = `
-                <h1>MDA</h1>
-                <h2>Mohammadi Digital Academy</h2>
-                <h3>CERTIFICATE OF COMPLETION</h3>
-                <p><strong>${name}</strong> has successfully completed the QuickBooks 2024 Course and has acquired the necessary skills in utilizing accounting software and business management tools.</p>
-                <p><strong>Web.ID:</strong> ${id}</p>
-                <p><strong>DATE:</strong> 2025-jan</p>
-                <p><strong>INSTRUCTOR:</strong> Moneebullah Mohammadi</p>
-                <p><strong>WhatsApp:</strong> +93788326950</p>
-                <p><strong>Email:</strong> muhammadimoneebullah1@gmail.com</p>
+                <div class="certificate-text">
+                    <h1>MDA</h1>
+                    <h2>Mohammadi Digital Academy</h2>
+                    <h3>CERTIFICATE OF COMPLETION</h3>
+                    <p><strong>${name}</strong> has successfully completed the QuickBooks 2024 Course and has acquired the necessary skills in utilizing accounting software and business management tools.</p>
+                    <p><strong>Web.ID:</strong> ${id}</p>
+                    <p><strong>DATE:</strong> 2025-jan</p>
+                    <p><strong>INSTRUCTOR:</strong> Moneebullah Mohammadi</p>
+                    <p><strong>WhatsApp:</strong> +93788326950</p>
+                    <p><strong>Email:</strong> muhammadimoneebullah1@gmail.com</p>
+                </div>
             `;
 
             document.getElementById("certificateContent").innerHTML = content;
