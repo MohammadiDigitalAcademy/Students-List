@@ -276,28 +276,30 @@
         }
 
         .feedback-content {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 15px;
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
+            max-height: 80vh; /* Set a maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
             text-align: center;
             color: black;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             border: 2px solid #ffcc00;
-            overflow-y: auto;
-            max-height: 80vh;
         }
 
         .feedback-content h2 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             color: #1e3c72;
             margin-bottom: 20px;
         }
 
-        .feedback-content input, .feedback-content select, .feedback-content textarea {
+        .feedback-content input, 
+        .feedback-content select, 
+        .feedback-content textarea {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -305,11 +307,13 @@
             border-radius: 5px;
             font-size: 16px;
             outline: none;
+            transition: border 0.3s ease;
         }
 
-        .feedback-content textarea {
-            resize: vertical;
-            height: 100px;
+        .feedback-content input:focus, 
+        .feedback-content select:focus, 
+        .feedback-content textarea:focus {
+            border: 1px solid #ffcc00;
         }
 
         .feedback-content button {
@@ -321,11 +325,12 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .feedback-content button:hover {
             background: #e6b800;
+            transform: scale(1.05);
         }
 
         .close-feedback {
