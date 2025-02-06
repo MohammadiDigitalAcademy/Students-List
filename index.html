@@ -71,33 +71,6 @@
             color: black;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 90%;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 100%;
-            border: 1px solid #ccc;
-            z-index: 1;
-            max-height: 150px;
-            overflow-y: auto;
-            border-radius: 5px;
-        }
-
-        .dropdown-content div {
-            padding: 12px;
-            cursor: pointer;
-        }
-
-        .dropdown-content div:hover {
-            background-color: #f1f1f1;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -376,6 +349,41 @@
             font-size: 18px;
             color: #1e3c72;
         }
+
+        /* New styles for icons */
+        .icon-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .icon:hover {
+            color: #ffcc00;
+        }
+
+        /* New styles for feedback selection */
+        .feedback-selection {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+        }
+
+        .feedback-selection button {
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -386,6 +394,13 @@
         </div>
         <h1>Mohammadi Digital Academy</h1>
         <h2>Students List</h2>
+        
+        <!-- Icons for feedback -->
+        <div class="icon-container">
+            <!-- Removed subjects icon -->
+            <!-- Removed feedback icon -->
+        </div>
+
         <input type="text" id="searchBox" placeholder="Enter your ID or Name..." onkeyup="searchStudent()">
         <table id="studentTable">
             <thead>
@@ -402,7 +417,7 @@
                 <tr><td><div class="clickable" onclick="showCertificate('Ahmad Murid Noori', 'QB-2503')">Ahmad Murid Noori</div></td><td>QB-2503</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
                 <tr><td><div class="clickable" onclick="showCertificate('Wasiq Ahmad Jan Wadeed', 'QB-2504')">Wasiq Ahmad Jan Wadeed</div></td><td>QB-2504</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
                 <tr><td><div class="clickable" onclick="showCertificate('Ebadurrahman Musleh', 'QB-2505')">Ebadurrahman Musleh</div></td><td>QB-2505</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
-                <tr><td><div class="clickable" onclick="showCertificate('Sabawoon Gardizi', 'QB-2506')">Sabawoon Gardizi</div></td><td>QB-2506</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
+                <tr><td><div class="clickable" onclick="showCertificate('Paighaam Sabawoon', 'QB-2506')">Paighaam Sabawoon</div></td><td>QB-2506</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
                 <tr><td><div class="clickable" onclick="showCertificate('Ahmad Ozair Sahak', 'QB-2507')">Ahmad Ozair Sahak</div></td><td>QB-2507</td><td>QuickBooks Desktop 2024</td><td>2025-jan</td></tr>
             </tbody>
         </table>
@@ -429,13 +444,21 @@
         </div>
     </div>
 
+    <!-- Feedback Selection Modal -->
+    <div id="feedbackSelection" class="feedback-selection">
+        <h2>هویت خود را انتخاب کنید</h2>
+        <button onclick="openFeedbackFormAsStudent()">من محصل این آکادمی هستم</button>
+        <button onclick="openFeedbackFormAsOther()">سایر افراد</button>
+        <span class="close" onclick="closeFeedbackSelection()">&times;</span>
+    </div>
+
     <!-- Feedback Button and Modal -->
-    <button class="feedback-btn" onclick="openFeedback()">&#128172;</button>
+    <button class="feedback-btn" onclick="openFeedbackSelection()">&#128172;</button>
     <div class="feedback-modal" id="feedbackModal">
         <div class="feedback-content">
             <span class="close-feedback" onclick="closeFeedback()">&times;</span>
             <h2>فورم ارزیابی</h2>
-            <p>این فورم برای ارزیابی کیفیت خدمات ارائه شده است. لطفاً بازخورد صادقانه خود را در مورد روش‌های تدریس و سیستم ما ارائه دهید.</p>
+            <p>این فورم برای ارزیابی کیفیت خدمات ارائه شده است. لطفاً نظر صادقانه خود را در مورد روش‌های تدریس و سیستم ما ارائه دهید.</p>
             <form id="feedbackForm" action="https://formspree.io/f/mdkazwbv" method="POST">
                 <input type="text" id="name" name="name" placeholder="نام شما" required>
                 <div class="dropdown">
@@ -471,6 +494,21 @@
                 <button type="submit">ارسال</button>
             </form>
             <div id="doneMessage" class="thank-you-message" style="display:none;">انجام شد!</div>
+        </div>
+    </div>
+
+    <!-- Other Feedback Form Modal -->
+    <div id="otherFeedbackModal" class="feedback-modal" style="display: none;">
+        <div class="feedback-content">
+            <span class="close-feedback" onclick="closeOtherFeedback()">&times;</span>
+            <h2>فیدبک سایر افراد</h2>
+            <form id="otherFeedbackForm" action="https://formspree.io/f/mdkazwbv" method="POST">
+                <input type="text" id="otherName" name="name" placeholder="نام شما" required>
+                <input type="text" id="otherPhone" name="phone" placeholder="شماره تماس" required>
+                <textarea id="otherFeedback" name="feedback" placeholder="فیدبک شما" required></textarea>
+                <button type="submit">ارسال</button>
+            </form>
+            <div id="otherDoneMessage" class="thank-you-message" style="display:none;">انجام شد!</div>
         </div>
     </div>
 
@@ -518,14 +556,30 @@
             document.querySelector(".feedback-btn").style.display = "block"; // Show feedback button
         }
 
-        function openFeedback() {
+        function openFeedbackSelection() {
+            document.getElementById('feedbackSelection').style.display = 'block';
+        }
+
+        function closeFeedbackSelection() {
+            document.getElementById('feedbackSelection').style.display = 'none';
+        }
+
+        function openFeedbackFormAsStudent() {
+            closeFeedbackSelection();
             document.getElementById('feedbackModal').style.display = 'flex';
-            document.querySelector(".feedback-btn").style.display = "none"; // Hide feedback button
+        }
+
+        function openFeedbackFormAsOther() {
+            closeFeedbackSelection();
+            document.getElementById('otherFeedbackModal').style.display = 'flex';
         }
 
         function closeFeedback() {
             document.getElementById('feedbackModal').style.display = 'none';
-            document.querySelector(".feedback-btn").style.display = "block"; // Show feedback button
+        }
+
+        function closeOtherFeedback() {
+            document.getElementById('otherFeedbackModal').style.display = 'none';
         }
 
         // Web ID filtering
@@ -556,7 +610,7 @@
             }
         }
 
-        // Formspree Submission Handling
+        // Formspree Submission Handling for feedback
         document.getElementById("feedbackForm").onsubmit = function(event) {
             event.preventDefault(); // Prevent the default form submission
             let form = event.target;
@@ -576,6 +630,35 @@
                         doneMessage.style.display = "none"; // Hide Done message after 3 seconds
                     }, 3000);
                     closeFeedback();
+                    form.reset();
+                } else {
+                    alert("Oops! Something went wrong. Please try again.");
+                }
+            }).catch(error => {
+                alert("Oops! Something went wrong. Please try again.");
+            });
+        };
+
+        // Formspree Submission Handling for other feedback
+        document.getElementById("otherFeedbackForm").onsubmit = function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            let form = event.target;
+            let formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    const doneMessage = document.getElementById("otherDoneMessage");
+                    doneMessage.style.display = "block"; // Show Done message
+                    setTimeout(() => {
+                        doneMessage.style.display = "none"; // Hide Done message after 3 seconds
+                    }, 3000);
+                    closeOtherFeedback();
                     form.reset();
                 } else {
                     alert("Oops! Something went wrong. Please try again.");
