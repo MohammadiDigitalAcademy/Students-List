@@ -1,6 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammadi Digital Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- لینک به فایل CSS -->
+</head>
+<body onload="showWelcomeModal()">
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <h1>Welcome To MDA</h1>
+            <p>به محمدی دیجیتال اکادمی خوش آمدید</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script> <!-- لینک به فایل JavaScript -->
+</body>
+</html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mohammadi Digital Academy</title>
@@ -16,7 +34,147 @@
             background: #1e3c72;
             color: white;
         }
+        .about-us-container {
+    background: rgba(255, 255, 255, 0.1); /* پس‌زمینه شفاف */
+    border-radius: 15px; /* گوشه‌های گرد */
+    padding: 20px; /* فاصله داخلی */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* سایه */
+    margin: 20px 0; /* فاصله از بالا و پایین */
+}
 
+.about-us-title {
+    color: #ffcc00; /* رنگ زرد برای عنوان */
+    font-size: 36px; /* اندازه بزرگتر */
+    font-weight: 700; /* وزن بولد */
+    margin-bottom: 15px; /* فاصله پایین */
+    text-shadow: 1px 1px 2px rgb(0, 0, 0); /* سایه متن */
+}
+
+.about-us-section {
+    font-size: 18px; /* اندازه متن */
+    color: #000000; /* رنگ سفید */
+    margin-bottom: 20px; /* فاصله پایین */
+    line-height: 1.6; /* فاصله بین خطوط */
+}
+
+.about-us-subtitle {
+    color: #ffcc00; /* رنگ زرد برای زیرعنوان */
+    font-size: 24px; /* اندازه بزرگتر */
+    margin-top: 20px; /* فاصله بالا */
+    text-decoration: underline; /* زیرخط */
+}
+
+.about-us-icon {
+    font-size: 30px; /* اندازه آیکون */
+    color: #0066ff; /* رنگ زرد */
+    margin-right: 10px; /* فاصله راست */
+}
+.highlighted-name {
+    font-size: 20px; /* اندازه بزرگتر */
+    color: #5c7dd6; /* رنگ زرد */
+    font-weight: bold; /* بولد */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* سایه متن */
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #1e3c72;
+    color: white;
+}
+
+/* Styles for the welcome modal */
+.welcome-modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding-top: 20%;
+}
+
+/* Content inside the welcome modal */
+.welcome-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    display: inline-block; /* Center the content */
+    animation: fadeIn 0.5s; /* Animation for appearance */
+}
+
+/* Heading style */
+.welcome-content h1 {
+    font-size: 36px;
+    margin: 0;
+    color: #ffcc00; /* Yellow color for the heading */
+}
+
+/* Paragraph style */
+.welcome-content p {
+    font-size: 20px; /* Increased font size for better readability */
+    margin-top: 10px;
+    color: #e0e0e0; /* Light gray color for the text */
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* سایر استایل‌ها */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* سایر استایل‌ها ادامه دارد... */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* سایر استایل‌ها ادامه دارد... */
+/* سایر استایل‌ها ادامه دارد... */
+.dropdown-content {
+    display: none; /* پنهان به طور پیش‌فرض */
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    border: 1px solid #ddd;
+    max-height: 200px; /* حداکثر ارتفاع */
+    overflow-y: auto; /* فعال کردن اسکرول عمودی */
+}
+
+.dropdown-content div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-content div:hover {
+    background-color: #f1f1f1; /* رنگ پس‌زمینه هنگام هاور */
+}
         .container {
             max-width: 800px;
             margin: auto;
@@ -353,6 +511,7 @@
             margin-top: 20px;
             font-size: 18px;
             color: #1e3c72;
+            
         }
 
         /* New styles for icons */
@@ -412,18 +571,114 @@
             transform: scale(1.05);
         }
 
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 30px;
-            font-weight: bold;
-            color: #555;
-            cursor: pointer;
+        /* Navbar Styles */
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
         }
 
-        .close:hover {
-            color: black;
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar li {
+            margin-right: 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            color: #ccc;
+        }
+
+        /* New styles for menu icon */
+        .menu-icon {
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .menu-icon:hover {
+            color: #ffcc00; /* Change color on hover */
+        }
+
+        /* New styles for menu dropdown */
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+
+        .menu-dropdown ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-dropdown li {
+            margin-bottom: 10px;
+        }
+
+        .menu-dropdown a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold; /* Make text bold */
+        }
+
+        .menu-dropdown a:hover {
+            color: #ffcc00; /* Change color on hover */
+        }
+
+        /* New styles for submenu */
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 0; /* Align with the parent */
+            right: 100%; /* Move it to the left of the parent */
+            margin-right: -5em; /* Move it 5em to the left */
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            min-width: 200px; /* Increase width to fit text */
+        }
+
+        /* Adjust the width of the submenu */
+        .submenu ul {
+            padding: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 5px;
+        }
+
+        .submenu a {
+            color: #333;
+        }
+
+        .submenu a:hover {
+            color: #ffcc00;
         }
     </style>
 </head>
@@ -436,12 +691,6 @@
         <h1>Mohammadi Digital Academy</h1>
         <h2>Students List</h2>
         
-        <!-- Icons for feedback -->
-        <div class="icon-container">
-            <!-- Removed subjects icon -->
-            <!-- Removed feedback icon -->
-        </div>
-
         <input type="text" id="searchBox" placeholder="Enter your ID or Name..." onkeyup="searchStudent()">
         <table id="studentTable">
             <thead>
@@ -473,6 +722,27 @@
             </div>
         </div>
         <div class="motto">We Deliver What We Promise</div>
+        
+        <!-- Menu icon and dropdown -->
+        <i class="fas fa-ellipsis-v menu-icon" onclick="toggleMenu()"></i>
+        <div class="menu-dropdown" id="menuDropdown">
+            <ul>
+                <li><a href="#" onclick="showAboutUs()">About Us</a></li>
+                <li><a href="#" onclick="openFeedbackSelection()">Feedback</a></li>
+                <li>
+                    <a href="#" onclick="toggleStudyMaterials(event)">Study Materials</a>
+                    <div class="submenu" id="studyMaterialsDropdown">
+                        <ul>
+                            <li><a href="https://t.me/+QSWvhItZm_VhMmFl" target="_blank">QuickBooks</a></li>
+                            <li><a href="#" onclick="showComingSoon('SPSS'); closeMenu();">SPSS</a></li>
+                            <li><a href="#" onclick="showComingSoon('Graphic Design'); closeMenu();">Graphic Design</a></li>
+                            <li><a href="#" onclick="showComingSoon('ICDL'); closeMenu();">ICDL</a></li>
+                            
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- Certificate Modal -->
@@ -481,6 +751,53 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <div class="certificate-text" id="certificateContent">
                 <!-- Certificate content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="comingSoonModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeComingSoon()">&times;</span>
+            <div class="certificate-text">
+                <h1>Coming Soon</h1>
+                <p>   </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div id="aboutUsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAboutUs()">&times;</span>
+            <div class="about-us-container">
+                <h1 class="about-us-title">درباره ما</h1>
+                <p class="about-us-section">
+                    <i class="fas fa-graduation-cap about-us-icon"></i>
+                    محمدی دیجیتال آکادمی یک مرکز آموزشی پیشرو است  که در زمینه تدریس  مهارت‌ های دیجیتالی، 
+                    به‌ ویژه دوره‌های مرتبط با کمپیوتر و حسابداری فعالیت دارد. این آکادمی در سال 2024 
+                    توسط  <span class="highlighted-name">منیب‌الله محمدی</span>  با هدف ارتقای دانش دیجیتالی و آماده‌سازی نیروی متخصص  برای 
+                    بازار کار تأسیس شد
+                </p>
+                <div class="about-us-box">
+                    <h2 class="about-us-subtitle">چشم‌انداز ما</h2>
+                    <p class="about-us-section">
+                        <i class="fas fa-eye about-us-icon"></i>
+                        ما با استفاده از متودهای آموزشی  مدرن، تلاش می‌کنیم تا شاگردان را برای ورود به 
+                        دنیای دیجیتال آماده کنیم. هدف  ما ارائه آموزش‌های عملی و کاربردی است تا 
+                        دانشجویان بتوانند مهارت‌ های لازم را برای پیشرفت در حوزه فناوری و حسابداری 
+                        دیجیتالی  کسب  کنند
+                    </p>
+                </div>
+                <div class="about-us-box">
+                    <h2 class="about-us-subtitle">چرا ما؟</h2>
+                    <p class="about-us-section">
+                        <i class="fas fa-thumbs-up about-us-icon"></i>
+                        اگر به دنبال یادگیری مهارت‌ های کمپیوتری و حسابداری  دیجیتالی هستید، 
+                        محمدی دیجیتال آکادمی بهترین انتخاب  برای شماست. ما به شما کمک می‌ کنیم 
+                        تا در دنیای دیجیتال موفق شوید و به اهداف خود برسید
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -554,6 +871,18 @@
     </div>
 
     <script>
+        function showWelcomeModal() {
+    const modal = document.getElementById("welcomeModal");
+    modal.style.display = "block"; // Show the modal
+
+    setTimeout(() => {
+        modal.style.display = "none"; // Hide the modal after 2 seconds
+    }, 2000);
+}
+
+// سایر توابع JavaScript شما ...
+
+// سایر توابع JavaScript شما ...
         function searchStudent() {
             let input = document.getElementById("searchBox").value.toLowerCase();
             let rows = document.querySelectorAll("#studentTable tbody tr");
@@ -597,7 +926,27 @@
             document.querySelector(".feedback-btn").style.display = "block"; // Show feedback button
         }
 
+        function showComingSoon(course) {
+            const comingSoonModal = document.getElementById("comingSoonModal");
+            comingSoonModal.style.display = "block";
+        }
+
+        function closeComingSoon() {
+            document.getElementById("comingSoonModal").style.display = "none";
+        }
+
+        function showAboutUs() {
+            const aboutUsModal = document.getElementById("aboutUsModal");
+            aboutUsModal.style.display = "block";
+            closeMenu(); // Close the menu
+        }
+
+        function closeAboutUs() {
+            document.getElementById("aboutUsModal").style.display = "none";
+        }
+
         function openFeedbackSelection() {
+            closeMenu(); // Close the menu
             document.getElementById('feedbackSelection').style.display = 'block';
         }
 
@@ -626,30 +975,30 @@
         // Web ID filtering
         const webIds = ["QB-2501", "QB-2502", "QB-2503", "QB-2504", "QB-2505", "QB-2506", "QB-2507"];
 
-        function filterWebId() {
-            const input = document.getElementById("webId");
-            const filter = input.value.toLowerCase();
-            const dropdown = document.getElementById("webIdDropdown");
-            dropdown.innerHTML = ""; // Clear previous options
+function filterWebId() {
+    const input = document.getElementById("webId");
+    const filter = input.value.toLowerCase();
+    const dropdown = document.getElementById("webIdDropdown");
+    dropdown.innerHTML = ""; // پاک کردن گزینه‌های قبلی
 
-            if (filter) {
-                webIds.forEach(id => {
-                    if (id.toLowerCase().includes(filter)) {
-                        const div = document.createElement("div");
-                        div.textContent = id;
-                        div.onclick = function() {
-                            input.value = id; // Set input value to selected ID
-                            dropdown.innerHTML = ""; // Clear dropdown
-                            dropdown.style.display = "none"; // Hide dropdown
-                        };
-                        dropdown.appendChild(div);
-                    }
-                });
-                dropdown.style.display = dropdown.childNodes.length ? "block" : "none"; // Show dropdown if there are matches
-            } else {
-                dropdown.style.display = "none"; // Hide dropdown if input is empty
+    if (filter) {
+        webIds.forEach(id => {
+            if (id.toLowerCase().includes(filter)) {
+                const div = document.createElement("div");
+                div.textContent = id;
+                div.onclick = function() {
+                    input.value = id; // تنظیم مقدار ورودی به ID انتخاب شده
+                    dropdown.innerHTML = ""; // پاک کردن dropdown
+                    dropdown.style.display = "none"; // پنهان کردن dropdown
+                };
+                dropdown.appendChild(div);
             }
-        }
+        });
+        dropdown.style.display = dropdown.childNodes.length ? "block" : "none"; // نمایش dropdown اگر گزینه‌ای وجود داشته باشد
+    } else {
+        dropdown.style.display = "none"; // پنهان کردن dropdown اگر ورودی خالی باشد
+    }
+}
 
         // Formspree Submission Handling for feedback
         document.getElementById("feedbackForm").onsubmit = function(event) {
@@ -697,7 +1046,7 @@
                     const doneMessage = document.getElementById("otherDoneMessage");
                     doneMessage.style.display = "block"; // Show Done message
                     setTimeout(() => {
-                        doneMessage.style.display = "none"; // Hide Done message after 3 seconds
+                        doneMessage.style.display = " none"; // Hide Done message after 3 seconds
                     }, 3000);
                     closeOtherFeedback();
                     form.reset();
@@ -708,6 +1057,54 @@
                 alert("Oops! Something went wrong. Please try again.");
             });
         };
+
+        function closeMenu() {
+    const menuDropdown = document.getElementById("menuDropdown");
+    menuDropdown.style.display = "none"; // فقط منوی اصلی را می‌بندد
+}
+
+function toggleMenu() {
+    const menuDropdown = document.getElementById("menuDropdown");
+    const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
+
+    if (menuDropdown.style.display === "block") {
+        closeMenu(); // منوی اصلی را می‌بندد
+    } else {
+        closeMenu(); // ابتدا منوی اصلی را می‌بندد
+        menuDropdown.style.display = "block"; // سپس منوی اصلی را باز می‌کند
+        studyMaterialsDropdown.style.display = "none"; // زیرمنوی "Study Materials" را بسته می‌کند
+    }
+}
+
+function toggleStudyMaterials(event) {
+    event.stopPropagation(); // جلوگیری از بسته شدن منوی اصلی
+    const dropdown = document.getElementById("studyMaterialsDropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; // فقط زیرمنوی "Study Materials" را باز و بسته می‌کند
+}
+
+function showComingSoon(course) {
+    const comingSoonModal = document.getElementById("comingSoonModal");
+    comingSoonModal.style.display = "block";
+    closeMenu(); // بستن منوی اصلی
+}
+
+window.onclick = function(event) {
+    const menuDropdown = document.getElementById("menuDropdown");
+    const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
+    
+    // اگر کلیک بر روی منوی اصلی یا آیکون منو نباشد، منوی اصلی را ببندید
+    if (event.target !== menuDropdown && event.target !== document.querySelector('.menu-icon') && !studyMaterialsDropdown.contains(event.target)) {
+        closeMenu();
+    }
+};
+
+        // Close dropdown when clicking anywhere on the page
+        document.addEventListener('click', function(event) {
+            const menuDropdown = document.getElementById("menuDropdown");
+            if (!menuDropdown.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+                closeMenu();
+            }
+        });
     </script>
 </body>
 </html>
