@@ -974,7 +974,7 @@ function filterWebId() {
     const input = document.getElementById("webId");
     const filter = input.value.toLowerCase();
     const dropdown = document.getElementById("webIdDropdown");
-    dropdown.innerHTML = ""; // پاک کردن گزینه‌های قبلی
+    dropdown.innerHTML = ""; 
 
     if (filter) {
         webIds.forEach(id => {
@@ -982,16 +982,16 @@ function filterWebId() {
                 const div = document.createElement("div");
                 div.textContent = id;
                 div.onclick = function() {
-                    input.value = id; // تنظیم مقدار ورودی به ID انتخاب شده
-                    dropdown.innerHTML = ""; // پاک کردن dropdown
-                    dropdown.style.display = "none"; // پنهان کردن dropdown
+                    input.value = id; 
+                    dropdown.innerHTML = ""; 
+                    dropdown.style.display = "none"; 
                 };
                 dropdown.appendChild(div);
             }
         });
-        dropdown.style.display = dropdown.childNodes.length ? "block" : "none"; // نمایش dropdown اگر گزینه‌ای وجود داشته باشد
+        dropdown.style.display = dropdown.childNodes.length ? "block" : "none"; 
     } else {
-        dropdown.style.display = "none"; // پنهان کردن dropdown اگر ورودی خالی باشد
+        dropdown.style.display = "none"; 
     }
 }
 
@@ -1055,7 +1055,7 @@ function filterWebId() {
 
         function closeMenu() {
     const menuDropdown = document.getElementById("menuDropdown");
-    menuDropdown.style.display = "none"; // فقط منوی اصلی را می‌بندد
+    menuDropdown.style.display = "none"; 
 }
 
 function toggleMenu() {
@@ -1063,31 +1063,31 @@ function toggleMenu() {
     const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
 
     if (menuDropdown.style.display === "block") {
-        closeMenu(); // منوی اصلی را می‌بندد
+        closeMenu(); 
     } else {
-        closeMenu(); // ابتدا منوی اصلی را می‌بندد
-        menuDropdown.style.display = "block"; // سپس منوی اصلی را باز می‌کند
-        studyMaterialsDropdown.style.display = "none"; // زیرمنوی "Study Materials" را بسته می‌کند
+        closeMenu(); 
+        menuDropdown.style.display = "block"; 
+        studyMaterialsDropdown.style.display = "none"; 
     }
 }
 
 function toggleStudyMaterials(event) {
-    event.stopPropagation(); // جلوگیری از بسته شدن منوی اصلی
+    event.stopPropagation(); 
     const dropdown = document.getElementById("studyMaterialsDropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; // فقط زیرمنوی "Study Materials" را باز و بسته می‌کند
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; 
 }
 
 function showComingSoon(course) {
     const comingSoonModal = document.getElementById("comingSoonModal");
     comingSoonModal.style.display = "block";
-    closeMenu(); // بستن منوی اصلی
+    closeMenu(); 
 }
 
 window.onclick = function(event) {
     const menuDropdown = document.getElementById("menuDropdown");
     const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
     
-    // اگر کلیک بر روی منوی اصلی یا آیکون منو نباشد، منوی اصلی را ببندید
+
     if (event.target !== menuDropdown && event.target !== document.querySelector('.menu-icon') && !studyMaterialsDropdown.contains(event.target)) {
         closeMenu();
     }
