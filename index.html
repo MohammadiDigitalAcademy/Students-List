@@ -17,6 +17,28 @@
     </div>
     <script src="script.js"></script> <!-- لینک به فایل JavaScript -->
 </body>
+<!-- Password Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePasswordModal()">&times;</span>
+        <div class="certificate-text">
+            <h2>QuickBooks Study Materials </h2>
+            <p style="text-align: center; margin: 30px 0;">برای دریافت مواد درسی رمز را وارد نمایید</p></p>
+            
+            <div class="otp-container" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)" onkeydown="handleBackspace(this, 0)">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(this, 1)">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(this, 2)">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(this, 3)">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(this, 4)">
+                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 6)" onkeydown="handleBackspace(this, 5)">
+            </div>
+            
+            <button onclick="checkPassword()" style="background: #ffcc00; color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">تایید</button>
+            <p id="passwordError" style="color: red; display: none; margin-top: 10px;">رمز اشتباه است! لطفا دوباره کوشش نمایید.</p>
+        </div>
+    </div>
+</div>
 </html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +70,22 @@ animation: gradient 5s ease infinite;
     background-position:0% 50%;
     }
 }  
+/* Password Modal Styles */
+.otp-input {
+    width: 40px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    background: white;
+}
+
+.otp-input:focus {
+    outline: none;
+    border-color: #e6b800;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
 
 .about-us-title {
     color: #ffcc00; /* رنگ زرد برای عنوان */
@@ -87,7 +125,7 @@ body{
    margin:os;
    text-align: center;
    background: linear-gradient(45deg, #4b6dc9,
-   #536fac, #0051ff,#007981, #314f86, #4260a1);
+   #536fac, #4ab398,#007981, #314f86, #4260a1);
 background-size: 400% 400%;
 animation: gradient 5s ease infinite;
  
@@ -736,7 +774,6 @@ animation: gradient 5s ease infinite;
                  <tr><td><div class="clickable" onclick="showCertificate('Walid Farhadi', 'QB-2510')">Walid Farhadi</div></td><td>QB-2510</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
                  <tr><td><div class="clickable" onclick="showCertificate('Edris Haidari', 'QB-2511')">Edris Haidari</div></td><td>QB-2511</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
                  <tr><td><div class="clickable" onclick="showCertificate('Hekmatullah Qasemi', 'QB-2512')">Hekmatullah Qasemi</div></td><td>QB-2512</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
-                <tr><td><div class="clickable" onclick="showCertificate('Ibrar Momand', 'QB-2513')">Ibrar Momand</div></td><td>QB-2513</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
             </tbody>
         </table>
         <div class="contact">
@@ -761,7 +798,7 @@ animation: gradient 5s ease infinite;
                     <a href="#" onclick="toggleStudyMaterials(event)">Study Materials</a>
                     <div class="submenu" id="studyMaterialsDropdown">
                         <ul>
-                            <li><a href="https://t.me/+H_CqZNNSgyA4NTNl" target="_blank">QuickBooks</a></li>
+                            <li><a href="#" onclick="openQuickBooksWithPassword()">QuickBooks</a></li>
                             <li><a href="#" onclick="showComingSoon('SPSS'); closeMenu();">SPSS</a></li>
                             <li><a href="#" onclick="showComingSoon('Graphic Design'); closeMenu();">Graphic Design</a></li>
                             <li><a href="#" onclick="showComingSoon('ICDL'); closeMenu();">ICDL</a></li>
@@ -877,6 +914,8 @@ animation: gradient 5s ease infinite;
             <div id="doneMessage" class="thank-you-message" style="display:none;">انجام شد!</div>
         </div>
     </div>
+
+    
 
     <!-- Other Feedback Form Modal -->
     <div id="otherFeedbackModal" class="feedback-modal" style="display: none;">
@@ -1110,12 +1149,15 @@ function showComingSoon(course) {
     comingSoonModal.style.display = "block";
     closeMenu(); 
 }
-
 window.onclick = function(event) {
+    const passwordModal = document.getElementById('passwordModal');
+    if (event.target === passwordModal) {
+        closePasswordModal();
+    }
+    
     const menuDropdown = document.getElementById("menuDropdown");
     const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
     
-
     if (event.target !== menuDropdown && event.target !== document.querySelector('.menu-icon') && !studyMaterialsDropdown.contains(event.target)) {
         closeMenu();
     }
@@ -1128,6 +1170,92 @@ window.onclick = function(event) {
                 closeMenu();
             }
         });
+        // Password functions
+function showPasswordModal() {
+    document.getElementById('passwordModal').style.display = 'block';
+    document.getElementById('passwordError').style.display = 'none';
+    
+    // Reset all OTP inputs
+    const inputs = document.querySelectorAll('.otp-input');
+    inputs.forEach(input => {
+        input.value = '';
+    });
+    
+    // په اتوماتيک ډول په لومړي input کې فوکس کړئ
+    document.querySelector('.otp-input').focus();
+}
+
+function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
+}
+
+function moveToNext(input, nextIndex) {
+    const inputs = document.querySelectorAll('.otp-input');
+    
+    // یوازې شمېرې قبول کړئ
+    input.value = input.value.replace(/[^0-9]/g, '');
+    
+    if (input.value !== '' && nextIndex < inputs.length) {
+        inputs[nextIndex].focus();
+    }
+    
+    // که چیرې ټول inputs ډک شوي وي، پاسورډ چک کړئ
+    const allFilled = Array.from(inputs).every(input => input.value !== '');
+    if (allFilled) {
+        checkPassword();
+    }
+}
+
+function handleBackspace(input, currentIndex) {
+    if (event.key === 'Backspace' && input.value === '') {
+        const inputs = document.querySelectorAll('.otp-input');
+        if (currentIndex > 0) {
+            inputs[currentIndex - 1].focus();
+        }
+    }
+}function checkPassword() {
+    const inputs = document.querySelectorAll('.otp-input');
+    let enteredPassword = '';
+    
+    inputs.forEach(input => {
+        enteredPassword += input.value;
+    });
+    
+    const errorElement = document.getElementById('passwordError');
+    
+    // رمزهای قابل قبول
+    const normalizedPassword = enteredPassword.replace(/^0+/, '');
+    
+    if (enteredPassword === '104829' || normalizedPassword === '135') {
+        // Correct password - redirect to QuickBooks link
+        window.open('https://t.me/+H_CqZNNSgyA4NTNl', '_blank');
+        closePasswordModal();
+        closeMenu();
+    } else {
+        errorElement.textContent = 'رمز اشتباه است! لطفا دوباره کوشش نمایید';
+        errorElement.style.display = 'block';
+        errorElement.style.textAlign = 'center';
+        
+        // Reset all inputs
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        
+        // په لومړي input کې فوکس کړئ
+        inputs[0].focus();
+    }
+}
+// د QuickBooks لینک په منو کې بدلول
+function openQuickBooksWithPassword() {
+    showPasswordModal();
+}
+
+// د Enter کې په password input کې د پريس لپاره
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter' && document.getElementById('passwordModal').style.display === 'block') {
+        checkPassword();
+    }
+});
     </script>
 </body>
 </html>
