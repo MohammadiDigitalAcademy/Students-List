@@ -17,26 +17,20 @@
     </div>
     <script src="script.js"></script> <!-- لینک به فایل JavaScript -->
 </body>
-<!-- Password Modal -->
-<div id="passwordModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closePasswordModal()">&times;</span>
-        <div class="certificate-text">
-            <h2>QuickBooks Study Materials </h2>
-            <p style="text-align: center; margin: 30px 0;">برای دریافت مواد درسی رمز را وارد نمایید</p></p>
-            
-            <div class="otp-container" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)" onkeydown="handleBackspace(this, 0)">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(this, 1)">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(this, 2)">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(this, 3)">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(this, 4)">
-                <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 6)" onkeydown="handleBackspace(this, 5)">
-            </div>
-            
-            <button onclick="checkPassword()" style="background: #ffcc00; color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">تایید</button>
-            <p id="passwordError" style="color: red; display: none; margin-top: 10px;">رمز اشتباه است! لطفا دوباره کوشش نمایید.</p>
+<!-- بعد از Study Materials و قبل از لینک QuickBooks -->
+<div class="password-modal" id="passwordModal">
+    <div class="password-content">
+        <h2>رمز را وارد کنید</h2>
+        <div class="password-inputs">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
         </div>
+        <button onclick="checkPassword()">تأیید</button>
+        <p id="passwordError" class="error-message"></p>
     </div>
 </div>
 </html>
@@ -70,23 +64,216 @@ animation: gradient 5s ease infinite;
     background-position:0% 50%;
     }
 }  
-/* Password Modal Styles */
-.otp-input {
-    width: 40px;
-    height: 50px;
-    font-size: 24px;
+/* استایل مدرن برای صفحه رمز */
+.password-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1002;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.password-content {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 40px 30px;
+    border-radius: 20px;
     text-align: center;
-    border: 2px solid #ffcc00;
-    border-radius: 5px;
-    background: white;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.otp-input:focus {
+.password-content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.password-content h2 {
+    color: #ffcc00;
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.password-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.password-char {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.password-char:focus {
+    border-color: #ffcc00;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
     outline: none;
-    border-color: #e6b800;
-    box-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
 }
 
+.password-char.filled {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.password-content button {
+    background: linear-gradient(135deg, #ffcc00, #ffaa00);
+    color: #1e3c72;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+}
+
+.password-content button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 204, 0, 0.5);
+}
+
+.password-content button:active {
+    transform: translateY(0);
+}
+
+.error-message {
+    color: #ff6b6b;
+    margin-top: 15px;
+    font-size: 14px;
+    display: none;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #ff6b6b;
+}
+
+/* استایل برای نمایش سه نقطه سبز */
+.green-dots {
+    display: none;
+    justify-content: center;
+    gap: 15px;
+    margin: 40px 0;
+}
+
+.green-dot {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #00ff88, #00cc66);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.green-dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.green-dot:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.3);
+        opacity: 0.7;
+    }
+}
+
+.success-message {
+    color: #00ff88;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* انیمیشن‌های جدید */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.password-content {
+    animation: slideUp 0.5s ease;
+}
+
+/* ریسپانسیو برای موبایل */
+@media (max-width: 480px) {
+    .password-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .password-char {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .password-inputs {
+        gap: 10px;
+    }
+    
+    .password-content h2 {
+        font-size: 24px;
+    }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
 .about-us-title {
     color: #ffcc00; /* رنگ زرد برای عنوان */
     font-size: 36px; /* اندازه بزرگتر */
@@ -125,7 +312,7 @@ body{
    margin:os;
    text-align: center;
    background: linear-gradient(45deg, #4b6dc9,
-   #536fac, #4ab398,#007981, #314f86, #4260a1);
+   #536fac, #36c0b5,#007981, #314f86, #4260a1);
 background-size: 400% 400%;
 animation: gradient 5s ease infinite;
  
@@ -798,7 +985,7 @@ animation: gradient 5s ease infinite;
                     <a href="#" onclick="toggleStudyMaterials(event)">Study Materials</a>
                     <div class="submenu" id="studyMaterialsDropdown">
                         <ul>
-                            <li><a href="#" onclick="openQuickBooksWithPassword()">QuickBooks</a></li>
+                            <li><a href="https://t.me/+H_CqZNNSgyA4NTNl" target="_blank">QuickBooks</a></li>
                             <li><a href="#" onclick="showComingSoon('SPSS'); closeMenu();">SPSS</a></li>
                             <li><a href="#" onclick="showComingSoon('Graphic Design'); closeMenu();">Graphic Design</a></li>
                             <li><a href="#" onclick="showComingSoon('ICDL'); closeMenu();">ICDL</a></li>
@@ -1138,10 +1325,26 @@ function toggleMenu() {
     }
 }
 
+// تغییر در تابع toggleStudyMaterials
 function toggleStudyMaterials(event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const dropdown = document.getElementById("studyMaterialsDropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; 
+    
+    if (dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+    } else {
+        dropdown.style.display = "block";
+        // تغییر لینک QuickBooks برای نمایش صفحه رمز
+        const quickbooksLink = dropdown.querySelector('a[href="https://t.me/+H_CqZNNSgyA4NTNl"]');
+        if (quickbooksLink) {
+            quickbooksLink.setAttribute('href', '#');
+            quickbooksLink.onclick = function(e) {
+                e.preventDefault();
+                showPasswordModal();
+                closeMenu();
+            };
+        }
+    }
 }
 
 function showComingSoon(course) {
@@ -1149,15 +1352,12 @@ function showComingSoon(course) {
     comingSoonModal.style.display = "block";
     closeMenu(); 
 }
+
 window.onclick = function(event) {
-    const passwordModal = document.getElementById('passwordModal');
-    if (event.target === passwordModal) {
-        closePasswordModal();
-    }
-    
     const menuDropdown = document.getElementById("menuDropdown");
     const studyMaterialsDropdown = document.getElementById("studyMaterialsDropdown");
     
+
     if (event.target !== menuDropdown && event.target !== document.querySelector('.menu-icon') && !studyMaterialsDropdown.contains(event.target)) {
         closeMenu();
     }
@@ -1170,91 +1370,127 @@ window.onclick = function(event) {
                 closeMenu();
             }
         });
-        // Password functions
+        // تابع برای نمایش صفحه رمز
 function showPasswordModal() {
-    document.getElementById('passwordModal').style.display = 'block';
+    document.getElementById('passwordModal').style.display = 'flex';
+    document.querySelectorAll('.password-char')[0].focus();
+}
+// به روزرسانی تابع checkPassword برای استایل بهتر
+function checkPassword() {
+    const inputs = document.querySelectorAll('.password-char');
+    let password = '';
+    inputs.forEach(input => {
+        password += input.value;
+        // اضافه کردن کلاس برای فیلدهای پر شده
+        if (input.value) {
+            input.classList.add('filled');
+        } else {
+            input.classList.remove('filled');
+        }
+    });
+    
+    if (password === '104829' || password === '135') {
+        // نمایش سه نقطه سبز
+        showGreenDots();
+        // هدایت به لینک پس از تأخیر
+        setTimeout(() => {
+            window.open('https://t.me/+H_CqZNNSgyA4NTNl', '_blank');
+            closePasswordModal();
+        }, 2000);
+    } else {
+        document.getElementById('passwordError').style.display = 'block';
+        document.getElementById('passwordError').textContent = 'رمز اشتباه است';
+        
+        // لرزاندن فیلدها در صورت خطا
+        inputs.forEach(input => {
+            input.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+                input.style.animation = '';
+            }, 500);
+        });
+    }
+}
+
+// اضافه کردن انیمیشن لرزش
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+`;
+document.head.appendChild(style);
+
+// تابع برای نمایش سه نقطه سبز
+function showGreenDots() {
+    const passwordContent = document.querySelector('.password-content');
+    passwordContent.innerHTML = '';
+    
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = 'green-dots';
+    
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'green-dot';
+        dotsContainer.appendChild(dot);
+    }
+    
+    passwordContent.appendChild(dotsContainer);
+    dotsContainer.style.display = 'flex';
+}
+
+// تابع برای بستن صفحه رمز
+function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
     document.getElementById('passwordError').style.display = 'none';
     
-    // Reset all OTP inputs
-    const inputs = document.querySelectorAll('.otp-input');
+    // بازنشانی فیلدهای رمز
+    const inputs = document.querySelectorAll('.password-char');
     inputs.forEach(input => {
         input.value = '';
     });
     
-    // په اتوماتيک ډول په لومړي input کې فوکس کړئ
-    document.querySelector('.otp-input').focus();
+    // بازگرداندن محتوای اصلی
+    const passwordContent = document.querySelector('.password-content');
+    passwordContent.innerHTML = `
+        <h2>رمز را وارد کنید</h2>
+        <div class="password-inputs">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+            <input type="text" maxlength="1" class="password-char">
+        </div>
+        <button onclick="checkPassword()">تأیید</button>
+        <p id="passwordError" class="error-message"></p>
+    `;
 }
 
-function closePasswordModal() {
-    document.getElementById('passwordModal').style.display = 'none';
-}
-
-function moveToNext(input, nextIndex) {
-    const inputs = document.querySelectorAll('.otp-input');
-    
-    // یوازې شمېرې قبول کړئ
-    input.value = input.value.replace(/[^0-9]/g, '');
-    
-    if (input.value !== '' && nextIndex < inputs.length) {
-        inputs[nextIndex].focus();
-    }
-    
-    // که چیرې ټول inputs ډک شوي وي، پاسورډ چک کړئ
-    const allFilled = Array.from(inputs).every(input => input.value !== '');
-    if (allFilled) {
-        checkPassword();
-    }
-}
-
-function handleBackspace(input, currentIndex) {
-    if (event.key === 'Backspace' && input.value === '') {
-        const inputs = document.querySelectorAll('.otp-input');
-        if (currentIndex > 0) {
-            inputs[currentIndex - 1].focus();
+// تابع برای مدیریت حرکت بین فیلدهای رمز
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('password-char')) {
+            const inputs = document.querySelectorAll('.password-char');
+            const index = Array.from(inputs).indexOf(e.target);
+            
+            if (e.target.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
         }
-    }
-}function checkPassword() {
-    const inputs = document.querySelectorAll('.otp-input');
-    let enteredPassword = '';
-    
-    inputs.forEach(input => {
-        enteredPassword += input.value;
     });
     
-    const errorElement = document.getElementById('passwordError');
-    
-    // رمزهای قابل قبول
-    const normalizedPassword = enteredPassword.replace(/^0+/, '');
-    
-    if (enteredPassword === '104829' || normalizedPassword === '135') {
-        // Correct password - redirect to QuickBooks link
-        window.open('https://t.me/+H_CqZNNSgyA4NTNl', '_blank');
-        closePasswordModal();
-        closeMenu();
-    } else {
-        errorElement.textContent = 'رمز اشتباه است! لطفا دوباره کوشش نمایید';
-        errorElement.style.display = 'block';
-        errorElement.style.textAlign = 'center';
-        
-        // Reset all inputs
-        inputs.forEach(input => {
-            input.value = '';
-        });
-        
-        // په لومړي input کې فوکس کړئ
-        inputs[0].focus();
-    }
-}
-// د QuickBooks لینک په منو کې بدلول
-function openQuickBooksWithPassword() {
-    showPasswordModal();
-}
-
-// د Enter کې په password input کې د پريس لپاره
-document.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter' && document.getElementById('passwordModal').style.display === 'block') {
-        checkPassword();
-    }
+    document.addEventListener('keydown', function(e) {
+        if (e.target.classList.contains('password-char')) {
+            const inputs = document.querySelectorAll('.password-char');
+            const index = Array.from(inputs).indexOf(e.target);
+            
+            if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                inputs[index - 1].focus();
+            }
+        }
+    });
 });
     </script>
 </body>
