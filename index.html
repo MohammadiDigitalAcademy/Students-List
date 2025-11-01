@@ -18,12 +18,12 @@
     <script src="script.js"></script> <!-- لینک به فایل JavaScript -->
 </body>
 <!-- بعد از Study Materials و قبل از لینک QuickBooks -->
+<!-- تغییر در بخش password-content -->
 <div class="password-modal" id="passwordModal">
     <div class="password-content">
+        <span class="close-password" onclick="closePasswordModal()">&times;</span>
         <h2>رمز را وارد کنید</h2>
         <div class="password-inputs">
-            <input type="text" maxlength="1" class="password-char">
-            <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
@@ -32,6 +32,7 @@
         <button onclick="checkPassword()">تأیید</button>
         <p id="passwordError" class="error-message"></p>
     </div>
+</div>
 </div>
 </html>
     <meta charset="UTF-8">
@@ -64,6 +65,43 @@ animation: gradient 5s ease infinite;
     background-position:0% 50%;
     }
 }  
+/* استایل دکمه بستن (X) */
+.close-password {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff6b6b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.close-password:hover {
+    color: #ff0000;
+    background: rgba(255, 107, 107, 0.2);
+    transform: scale(1.1);
+}
+
+/* برای حالت نمایش سه نقطه سبز */
+.green-dots-container .close-password {
+    top: 10px;
+    right: 15px;
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.green-dots-container .close-password:hover {
+    color: #00cc66;
+    background: rgba(0, 255, 136, 0.2);
+}
 /* استایل مدرن برای صفحه رمز */
 .password-modal {
     display: none;
@@ -114,32 +152,51 @@ animation: gradient 5s ease infinite;
     font-size: 28px;
     margin-bottom: 25px;
     font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(248, 255, 254, 0.616);
 }
-
+/* به روزرسانی استایل برای 4 خانه */
 .password-inputs {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     margin: 30px 0;
 }
 
 .password-char {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    transition: all 0.3s ease;
 }
 
+/* ریسپانسیو برای موبایل */
+@media (max-width: 480px) {
+    .password-char {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .password-inputs {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .password-char {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .password-inputs {
+        gap: 12px;
+    }
+}
 .password-char:focus {
     border-color: #ffcc00;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(100, 227, 231);
     transform: scale(1.1);
     box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
     outline: none;
@@ -147,7 +204,7 @@ animation: gradient 5s ease infinite;
 
 .password-char.filled {
     border-color: #00ff88;
-    background: rgba(0, 255, 136, 0.1);
+    background: rgba(241, 247, 244, 0.1);
 }
 
 .password-content button {
@@ -1324,8 +1381,7 @@ function toggleMenu() {
         studyMaterialsDropdown.style.display = "none"; 
     }
 }
-
-// تغییر در تابع toggleStudyMaterials
+// تغییر در تابع toggleStudyMaterials برای باز کردن در همان پنجره
 function toggleStudyMaterials(event) {
     event.stopPropagation();
     const dropdown = document.getElementById("studyMaterialsDropdown");
@@ -1374,14 +1430,12 @@ window.onclick = function(event) {
 function showPasswordModal() {
     document.getElementById('passwordModal').style.display = 'flex';
     document.querySelectorAll('.password-char')[0].focus();
-}
-// به روزرسانی تابع checkPassword برای استایل بهتر
+}// تابع برای بررسی رمز - با رمزهای جدید
 function checkPassword() {
     const inputs = document.querySelectorAll('.password-char');
     let password = '';
     inputs.forEach(input => {
         password += input.value;
-        // اضافه کردن کلاس برای فیلدهای پر شده
         if (input.value) {
             input.classList.add('filled');
         } else {
@@ -1389,19 +1443,18 @@ function checkPassword() {
         }
     });
     
-    if (password === '104829' || password === '135') {
-        // نمایش سه نقطه سبز
+    // رمزهای جدید: 135 و 1048
+    if (password === '135' || password === '1048') {
         showGreenDots();
-        // هدایت به لینک پس از تأخیر
+        // باز کردن لینک در همان تب (نه تب جدید)
         setTimeout(() => {
-            window.open('https://t.me/+H_CqZNNSgyA4NTNl', '_blank');
+            window.location.href = 'https://t.me/+H_CqZNNSgyA4NTNl';
             closePasswordModal();
         }, 2000);
     } else {
         document.getElementById('passwordError').style.display = 'block';
         document.getElementById('passwordError').textContent = 'رمز اشتباه است';
         
-        // لرزاندن فیلدها در صورت خطا
         inputs.forEach(input => {
             input.style.animation = 'shake 0.5s ease';
             setTimeout(() => {
@@ -1411,21 +1464,54 @@ function checkPassword() {
     }
 }
 
-// اضافه کردن انیمیشن لرزش
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
-`;
-document.head.appendChild(style);
+// تابع برای مدیریت حرکت بین فیلدها - به روزرسانی برای 4 فیلد
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('password-char')) {
+            const inputs = document.querySelectorAll('.password-char');
+            const index = Array.from(inputs).indexOf(e.target);
+            
+            if (e.target.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+            
+            // اگر آخرین فیلد پر شد، بررسی خودکار رمز
+            if (index === inputs.length - 1 && e.target.value.length === 1) {
+                setTimeout(() => checkPassword(), 300);
+            }
+        }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.target.classList.contains('password-char')) {
+            const inputs = document.querySelectorAll('.password-char');
+            const index = Array.from(inputs).indexOf(e.target);
+            
+            if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                inputs[index - 1].focus();
+            }
+            
+            // با Enter هم بررسی شود
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        }
+    });
+});
 
-// تابع برای نمایش سه نقطه سبز
+// تغییر در تابع showGreenDots برای حفظ دکمه X
 function showGreenDots() {
     const passwordContent = document.querySelector('.password-content');
+    const closeBtn = document.querySelector('.close-password');
+    
+    // ذخیره دکمه X
+    const closeBtnClone = closeBtn.cloneNode(true);
+    
     passwordContent.innerHTML = '';
+    passwordContent.classList.add('green-dots-container');
+    
+    // اضافه کردن مجدد دکمه X
+    passwordContent.appendChild(closeBtnClone);
     
     const dotsContainer = document.createElement('div');
     dotsContainer.className = 'green-dots';
@@ -1436,11 +1522,19 @@ function showGreenDots() {
         dotsContainer.appendChild(dot);
     }
     
+    const successMsg = document.createElement('div');
+    successMsg.className = 'success-message';
+    successMsg.textContent = 'در حال انتقال...';
+    
     passwordContent.appendChild(dotsContainer);
+    passwordContent.appendChild(successMsg);
     dotsContainer.style.display = 'flex';
+    
+    // اضافه کردن event listener برای دکمه X جدید
+    closeBtnClone.addEventListener('click', closePasswordModal);
 }
 
-// تابع برای بستن صفحه رمز
+// تغییر در تابع closePasswordModal برای بازگرداندن کامل صفحه
 function closePasswordModal() {
     document.getElementById('passwordModal').style.display = 'none';
     document.getElementById('passwordError').style.display = 'none';
@@ -1449,15 +1543,16 @@ function closePasswordModal() {
     const inputs = document.querySelectorAll('.password-char');
     inputs.forEach(input => {
         input.value = '';
+        input.classList.remove('filled');
     });
     
-    // بازگرداندن محتوای اصلی
+    // بازگرداندن محتوای اصلی و حذف کلاس container
     const passwordContent = document.querySelector('.password-content');
+    passwordContent.classList.remove('green-dots-container');
     passwordContent.innerHTML = `
+        <span class="close-password" onclick="closePasswordModal()">&times;</span>
         <h2>رمز را وارد کنید</h2>
         <div class="password-inputs">
-            <input type="text" maxlength="1" class="password-char">
-            <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
             <input type="text" maxlength="1" class="password-char">
@@ -1466,7 +1561,26 @@ function closePasswordModal() {
         <button onclick="checkPassword()">تأیید</button>
         <p id="passwordError" class="error-message"></p>
     `;
+    
+    // فوکوس روی اولین فیلد
+    setTimeout(() => {
+        document.querySelector('.password-char')?.focus();
+    }, 100);
 }
+
+// اضافه کردن قابلیت بستن با کلید ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('passwordModal').style.display === 'flex') {
+        closePasswordModal();
+    }
+});
+
+// اضافه کردن قابلیت بستن با کلیک خارج از محتوا
+document.getElementById('passwordModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePasswordModal();
+    }
+});
 
 // تابع برای مدیریت حرکت بین فیلدهای رمز
 document.addEventListener('DOMContentLoaded', function() {
