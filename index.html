@@ -34,6 +34,33 @@
         <p id="passwordError" class="error-message"></p>
     </div>
 </div>
+<!-- در منوی Study Materials اضافه کنید -->
+
+
+<!-- بعد از سایر مودال‌ها اضافه کنید -->
+<div id="testModal" class="test-modal">
+    <div class="test-content">
+        <span class="close-test" onclick="closeTestModal()">&times;</span>
+        <div class="test-header">
+            <div class="test-title">QuickBooks Test</div>
+            <div class="test-info">
+                <div class="timer" id="timer">زمان: 15:00</div>
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <div>سوال <span id="currentQuestion">1</span> از <span id="totalQuestions">30</span></div>
+            </div>
+        </div>
+        
+        <div id="testContent"></div>
+        
+        <div class="test-navigation">
+            <button class="test-btn" id="prevBtn" onclick="previousQuestion()">قبلی</button>
+            <button class="test-btn" id="nextBtn" onclick="nextQuestion()">بعدی</button>
+            <button class="test-btn" id="submitBtn" onclick="submitTest()">پایان آزمون</button>
+        </div>
+    </div>
+</div>
 </html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,6 +92,328 @@ animation: gradient 5s ease infinite;
     background-position:0% 50%;
     }
 }  
+/* استایل سیستم آزمون */
+.test-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1003;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.test-content {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    padding: 25px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    border: 3px solid #ffd600;
+    position: relative;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.test-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid rgba(255, 214, 0, 0.3);
+}
+
+.test-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffd600;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.test-info {
+    font-size: 16px;
+    color: #e3f2fd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.question-container {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 214, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #ffffff;
+    text-align: right;
+    direction: rtl;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option {
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: right;
+    direction: rtl;
+}
+
+.option:hover {
+    background: rgba(255, 214, 0, 0.2);
+    transform: translateX(-5px);
+    border-color: rgba(255, 214, 0, 0.5);
+}
+
+.option.selected {
+    background: rgba(255, 214, 0, 0.3);
+    border-color: #ffd600;
+    transform: translateX(-8px);
+    box-shadow: 0 5px 15px rgba(255, 214, 0, 0.3);
+}
+
+.test-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.test-btn {
+    background: linear-gradient(135deg, #ffd600, #ffab00);
+    color: #1a237e;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    box-shadow: 0 4px 15px rgba(255, 214, 0, 0.3);
+}
+
+.test-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 214, 0, 0.5);
+}
+
+.test-btn:active {
+    transform: translateY(-1px);
+}
+
+.test-btn:disabled {
+    background: #546e7a;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#submitBtn {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+#submitBtn:hover {
+    box-shadow: 0 8px 25px rgba(244, 67, 54, 0.5);
+}
+
+.results-container {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.results-title {
+    font-size: 32px;
+    color: #ffd600;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.score-display {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffd600;
+    margin: 25px 0;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.results-details {
+    text-align: center;
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 214, 0, 0.3);
+}
+
+.result-item {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.close-test {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff6b6b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 107, 107, 0.1);
+    z-index: 1;
+}
+
+.close-test:hover {
+    color: #ff0000;
+    background: rgba(255, 107, 107, 0.2);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    margin: 15px 0;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd600, #ffab00);
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+    box-shadow: 0 2px 8px rgba(255, 214, 0, 0.4);
+}
+
+.timer {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd600;
+    margin-bottom: 8px;
+    direction: rtl;
+}
+
+/* ریسپانسیو برای موبایل */
+@media (max-width: 768px) {
+    .test-modal {
+        padding: 15px;
+    }
+    
+    .test-content {
+        padding: 20px;
+        border-radius: 15px;
+    }
+    
+    .test-title {
+        font-size: 24px;
+    }
+    
+    .question-text {
+        font-size: 16px;
+    }
+    
+    .option {
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+    
+    .test-btn {
+        font-size: 14px;
+        padding: 12px 18px;
+    }
+    
+    .results-title {
+        font-size: 28px;
+    }
+    
+    .score-display {
+        font-size: 40px;
+    }
+    
+    .result-item {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-content {
+        padding: 15px;
+    }
+    
+    .test-title {
+        font-size: 22px;
+    }
+    
+    .question-container {
+        padding: 15px;
+    }
+    
+    .question-text {
+        font-size: 15px;
+    }
+    
+    .option {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    
+    .test-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .test-btn {
+        width: 100%;
+    }
+    
+    .results-title {
+        font-size: 24px;
+    }
+    
+    .score-display {
+        font-size: 36px;
+    }
+}
 /* استایل دکمه بستن (X) */
 .close-password {
     position: absolute;
@@ -981,6 +1330,7 @@ animation: gradient 5s ease infinite;
                  <tr><td><div class="clickable" onclick="showCertificate('Mohammad Amir Daudzai', 'QB-2514')">Mohammad Amir Daudzai</div></td><td>QB-2514</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
                  <tr><td><div class="clickable" onclick="showCertificate('Ahmad Rasheed Bahram', 'QB-2515')">Ahmad Rasheed Bahram</div></td><td>QB-2515</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
                  <tr><td><div class="clickable" onclick="showCertificate('Baheerullah Haidarzai', 'QB-2516')">Baheerullah Haidarzai</div></td><td>QB-2516</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
+                 <tr><td><div class="clickable" onclick="showCertificate('Noor Rahman Hamas', 'QB-2517')">Noor Rahman Hamas</div></td><td>QB-2517</td><td>QuickBooks Desktop 2024</td><td>2025-Feb</td></tr>
             </tbody>
         </table>
         <div class="contact">
@@ -1001,6 +1351,7 @@ animation: gradient 5s ease infinite;
             <ul>
                 <li><a href="#" onclick="showAboutUs()">About Us</a></li>
                 <li><a href="#" onclick="openFeedbackSelection()">Feedback</a></li>
+                <li><a href="#" onclick="showTestYourself(); closeMenu();">Test Yourself</a></li>
                 <li>
                     <a href="#" onclick="toggleStudyMaterials(event)">Study Materials</a>
                     <div class="submenu" id="studyMaterialsDropdown">
@@ -1242,7 +1593,7 @@ animation: gradient 5s ease infinite;
         }
 
         // Web ID filtering
-        const webIds = ["QB-2501", "QB-2502", "QB-2503", "QB-2504", "QB-2505", "QB-2506", "QB-2507", "QB-2508", "QB-2509", "QB-2510", "QB-2511", "QB-2512", "QB-2513", "QB-2514", "QB-2515", "QB-2516"];
+        const webIds = ["QB-2501", "QB-2502", "QB-2503", "QB-2504", "QB-2505", "QB-2506", "QB-2507", "QB-2508", "QB-2509", "QB-2510", "QB-2511", "QB-2512", "QB-2513", "QB-2514", "QB-2515", "QB-2516", "QB-2517"];
 
 function filterWebId() {
     const input = document.getElementById("webId");
@@ -1537,6 +1888,376 @@ document.addEventListener('keydown', function(e) {
 document.getElementById('passwordModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closePasswordModal();
+    }
+});
+// داده‌های کامل سوالات (۱۴۰ سوال)
+const allQuestions = {
+    normal: [
+        // 100 سوال عادی
+       
+    {id: 1, question: "QuickBooks چه نوع نرم‌افزار است؟", options: ["Accounting software", "Photo editing software", "Video converter", "Antivirus program"], correct: 0, category: "normal"},
+    {id: 2, question: "هدف اصلی QuickBooks چیست؟", options: ["Managing financial transactions", "Playing music", "Sending emails", "Editing videos"], correct: 0, category: "normal"},
+    {id: 3, question: "QuickBooks توسط کدام شرکت ساخته شده است؟", options: ["Intuit", "Microsoft", "Apple", "Oracle"], correct: 0, category: "normal"},
+    {id: 4, question: "QuickBooks برای کدام کاربران مناسب است؟", options: ["Small and medium businesses", "Large hospitals", "Game developers", "Photographers"], correct: 0, category: "normal"},
+    {id: 5, question: "در QuickBooks، Chart of Accounts به چه معناست؟", options: ["A list of all company accounts", "A list of customers", "A list of employees", "A list of reports"], correct: 0, category: "normal"},
+    {id: 6, question: "کدام یک از گزینه‌ها نوع QuickBooks نیست؟", options: ["QuickBooks Desktop", "QuickBooks Online", "QuickBooks Mobile", "QuickBooks Photoshop"], correct: 3, category: "normal"},
+    {id: 7, question: "یکی از مزایای QuickBooks Online چیست؟", options: ["Accessible from anywhere", "Works offline only", "Requires manual backups", "Not cloud-based"], correct: 0, category: "normal"},
+    {id: 8, question: "Invoices در QuickBooks برای چه استفاده می‌شود؟", options: ["To bill customers", "To pay employees", "To manage inventory", "To record loans"], correct: 0, category: "normal"},
+    {id: 9, question: "کدام بخش برای ثبت مصارف (Expenses) استفاده می‌شود؟", options: ["Expense center", "Payroll", "Chart of accounts", "Reports"], correct: 0, category: "normal"},
+    {id: 10, question: "Vendor در QuickBooks چه معنی دارد؟", options: ["Supplier", "Customer", "Employee", "Investor"], correct: 0, category: "normal"},
+    {id: 11, question: "Customer Center در QuickBooks برای چیست؟", options: ["Manage customers and sales", "Manage payroll", "Create backups", "Change software theme"], correct: 0, category: "normal"},
+    {id: 12, question: "Payroll در QuickBooks برای چه استفاده می‌شود؟", options: ["Paying employees", "Recording assets", "Managing stock", "Sending invoices"], correct: 0, category: "normal"},
+    {id: 13, question: "Bank Reconciliation در QuickBooks به چه معناست؟", options: ["Matching bank records with QuickBooks", "Creating new customers", "Generating sales reports", "Changing passwords"], correct: 0, category: "normal"},
+    {id: 14, question: "فایل اصلی QuickBooks دارای کدام اکستنشن است؟", options: [".QBW", ".XLS", ".PDF", ".TXT"], correct: 0, category: "normal"},
+    {id: 15, question: "Profit and Loss Report چه چیزی را نشان می‌دهد؟", options: ["Shows income and expenses", "Lists employees", "Displays vendor list", "Shows only assets"], correct: 0, category: "normal"},
+    {id: 16, question: "Balance Sheet Report چه چیزی را نمایش می‌دهد؟", options: ["Assets, liabilities, and equity", "Only sales", "Only inventory", "Only expenses"], correct: 0, category: "normal"},
+    {id: 17, question: "QuickBooks می‌تواند با چه بانک‌هایی وصل شود؟", options: ["Most major banks", "Only local banks", "No banks", "Only credit unions"], correct: 0, category: "normal"},
+    {id: 18, question: "Audit Log در QuickBooks چه کاری انجام می‌دهد؟", options: ["Tracks all user activity", "Deletes transactions", "Changes reports automatically", "Creates backups"], correct: 0, category: "normal"},
+    {id: 19, question: "Backup در QuickBooks چه می‌کند؟", options: ["Saves a copy of your data", "Deletes old data", "Sends invoices", "Updates software"], correct: 0, category: "normal"},
+    {id: 20, question: "Inventory در QuickBooks چه چیزی را کنترل می‌کند؟", options: ["Stock of goods", "Employee salaries", "Office rent", "Customer feedback"], correct: 0, category: "normal"},
+    {id: 21, question: "QuickBooks Desktop برای کار نیاز به چه دارد؟", options: ["Installation on computer", "Only mobile phone", "Cloud login", "Google Chrome"], correct: 0, category: "normal"},
+    {id: 22, question: "در QuickBooks Online چند کاربر می‌توانند کار کنند؟", options: ["Multiple users", "Only one", "None", "Two at maximum"], correct: 0, category: "normal"},
+    {id: 23, question: "Bill Payment در QuickBooks برای چیست؟", options: ["Paying vendors", "Paying employees", "Paying taxes", "Paying customers"], correct: 0, category: "normal"},
+    {id: 24, question: "Item List چه چیزی را نشان می‌دهد؟", options: ["Products and services", "Customer names", "Employee salaries", "Bank accounts"], correct: 0, category: "normal"},
+    {id: 25, question: "QuickBooks Accountant Edition برای چه کسانی است؟", options: ["Professional accountants", "Students", "Customers", "Photographers"], correct: 0, category: "normal"},
+    {id: 26, question: "مزیت QuickBooks Mobile App چیست؟", options: ["You can send invoices from phone", "You can play games", "You can edit PDFs", "You can manage music"], correct: 0, category: "normal"},
+    {id: 27, question: "Class Tracking در QuickBooks چه می‌کند؟", options: ["Categorizes income and expenses", "Deletes old invoices", "Manages passwords", "Exports data"], correct: 0, category: "normal"},
+    {id: 28, question: "Recurring Transactions به چه معناست؟", options: ["Automatically repeating entries", "One-time entries", "Deleted transactions", "Manual invoices"], correct: 0, category: "normal"},
+    {id: 29, question: "QuickBooks Pro برای چه مناسب است؟", options: ["Small businesses", "Government offices", "Factories only", "Personal use only"], correct: 0, category: "normal"},
+    {id: 30, question: "QuickBooks Enterprise برای چه سازمان‌هایی است؟", options: ["Large organizations", "Students", "Teachers", "Freelancers"], correct: 0, category: "normal"},
+    {id: 31, question: "چگونه می‌توان گزارشات مالی را در QuickBooks دید؟", options: ["Through Reports menu", "Through Help section", "Through Payroll", "Through Vendors list"], correct: 0, category: "normal"},
+    {id: 32, question: "Credit Memo برای چه استفاده می‌شود؟", options: ["Refund to a customer", "Employee salary", "Vendor payment", "Expense record"], correct: 0, category: "normal"},
+    {id: 33, question: "Estimate در QuickBooks به چه معناست؟", options: ["A quote or price proposal", "Final invoice", "Customer refund", "Vendor bill"], correct: 0, category: "normal"},
+    {id: 34, question: "بخش Preferences در QuickBooks چه کاری انجام می‌دهد؟", options: ["Customize software settings", "Delete files", "Block users", "Change passwords"], correct: 0, category: "normal"},
+    {id: 35, question: "Database Manager در QuickBooks چه می‌کند؟", options: ["Manages company files", "Controls internet", "Updates Windows", "Monitors emails"], correct: 0, category: "normal"},
+    {id: 36, question: "Sales Tax Center چه وظیفه‌ای دارد؟", options: ["Manages sales tax", "Manages employees", "Manages inventory", "Manages vendors"], correct: 0, category: "normal"},
+    {id: 37, question: "Memorized Reports چه فایده‌ای دارد؟", options: ["Save customized reports", "Delete old data", "Change passwords", "Export backups"], correct: 0, category: "normal"},
+    {id: 38, question: "Payroll Liabilities در QuickBooks چیست؟", options: ["Taxes owed by company", "Customer credits", "Inventory stock", "Vendor payments"], correct: 0, category: "normal"},
+    {id: 39, question: "Users and Roles چه کاری انجام می‌دهد؟", options: ["Control access permissions", "Change invoices", "Record sales", "Manage payroll"], correct: 0, category: "normal"},
+    {id: 41, question: "Purpose of 'Bank Feed' feature is what?", options: ["Automatically import transactions", "Delete bank data", "Create invoices", "Manage employees"], correct: 0, category: "normal"},
+    {id: 42, question: "What is 'Reconcile Now' used for?", options: ["Match QuickBooks and bank balances", "Delete old files", "Add new customers", "Create backups"], correct: 0, category: "normal"},
+    {id: 43, question: "در QuickBooks، 'Vendors' مربوط به چه چیزی هستند؟", options: ["Payables", "Receivables", "Payroll", "Reports"], correct: 0, category: "normal"},
+    {id: 44, question: "Accounts Receivable در QuickBooks به چه معناست؟", options: ["Money customers owe you", "Money you owe vendors", "Salary expenses", "Tax liabilities"], correct: 0, category: "normal"},
+    {id: 45, question: "Accounts Payable به چه معناست؟", options: ["Money you owe vendors", "Money vendors owe you", "Company profit", "Loan received"], correct: 0, category: "normal"},
+    {id: 46, question: "Journal Entry چه چیزی را ثبت می‌کند؟", options: ["Financial transactions manually", "Employee details", "Customer emails", "Bank passwords"], correct: 0, category: "normal"},
+    {id: 47, question: "Undeposited Funds در QuickBooks چیست؟", options: ["Payments received but not deposited", "Bank fees", "Unpaid bills", "Tax refund"], correct: 0, category: "normal"},
+    {id: 48, question: "Deposit در QuickBooks برای چه استفاده می‌شود؟", options: ["Move funds into bank", "Withdraw cash", "Pay vendor", "Close account"], correct: 0, category: "normal"},
+    {id: 49, question: "Rebuild Data در QuickBooks چه کاربردی دارد؟", options: ["Fix data errors", "Backup files", "Delete logs", "Send invoices"], correct: 0, category: "normal"},
+    {id: 50, question: "Verify Data در QuickBooks چه کاری انجام می‌دهد؟", options: ["Check company file for issues", "Create reports", "Export lists", "Print bills"], correct: 0, category: "normal"},
+    {id: 51, question: "Closing Date در QuickBooks چه کاری انجام می‌دهد؟", options: ["Locks previous transactions", "Deletes old reports", "Changes account type", "Adds new vendors"], correct: 0, category: "normal"},
+    {id: 52, question: "Inventory Adjustment در QuickBooks چه کاربردی دارد؟", options: ["Modify stock quantity", "Pay employees", "Print checks", "Send receipts"], correct: 0, category: "normal"},
+    {id: 53, question: "Sales Receipt چه چیزی را ثبت می‌کند؟", options: ["Payment received immediately", "Future payment", "Loan transaction", "Expense record"], correct: 0, category: "normal"},
+    {id: 54, question: "Purchase Order در QuickBooks به چه معناست؟", options: ["Request to buy goods", "Invoice to customer", "Loan payment", "Salary sheet"], correct: 0, category: "normal"},
+    {id: 55, question: "Transfer Funds چه کاری انجام می‌دهد؟", options: ["Move money between accounts", "Withdraw cash", "Pay tax", "Print report"], correct: 0, category: "normal"},
+    {id: 56, question: "Customer Statement چه چیزی نشان می‌دهد؟", options: ["Customer balance and transactions", "Employee attendance", "Vendor bills", "Profit margin"], correct: 0, category: "normal"},
+    {id: 57, question: "Sales by Item Summary چه چیزی را نشان می‌دهد؟", options: ["Total sales for each item", "Vendor list", "Bank balances", "Payroll expenses"], correct: 0, category: "normal"},
+    {id: 58, question: "Aging Report چه کاربردی دارد؟", options: ["Tracking unpaid invoices", "Employee birthdays", "Product prices", "Tax records"], correct: 0, category: "normal"},
+    {id: 59, question: "Budgeting در QuickBooks برای چه استفاده می‌شود؟", options: ["Planning future income and expenses", "Creating invoices", "Recording salaries", "Deleting data"], correct: 0, category: "normal"},
+    {id: 60, question: "Company Snapshot چه چیزی را نشان می‌دهد؟", options: ["Overview of business finances", "List of employees", "List of customers only", "Inventory details"], correct: 0, category: "normal"},
+    {id: 61, question: "Time Tracking چه کاری انجام می‌دهد؟", options: ["Record employee hours", "Count products", "Track vehicles", "Log emails"], correct: 0, category: "normal"},
+    {id: 62, question: "1099 Report چه کاربردی دارد؟", options: ["Independent contractor payments", "Employee taxes", "Bank deposits", "Inventory count"], correct: 0, category: "normal"},
+    {id: 63, question: "Payroll Summary چه چیزی را نشان می‌دهد؟", options: ["Total wages and deductions", "Customer balance", "Vendor list", "Asset values"], correct: 0, category: "normal"},
+    {id: 64, question: "Reconciliation Discrepancy Report برای چه است؟", options: ["Finding bank mismatches", "Creating invoices", "Deleting duplicates", "Changing settings"], correct: 0, category: "normal"},
+    {id: 65, question: "Fixed Asset Manager چه کاری انجام می‌دهد؟", options: ["Tracks company assets", "Vendor debts", "Customer refunds", "Sales tax"], correct: 0, category: "normal"},
+    {id: 66, question: "Loan Manager برای چه استفاده می‌شود؟", options: ["Manage business loans", "Employee salary", "Inventory levels", "Customer returns"], correct: 0, category: "normal"},
+    {id: 67, question: "Open Invoices Report چه چیزی را نشان می‌دهد؟", options: ["Unpaid customer invoices", "Paid bills", "Vendor credits", "Sales receipts"], correct: 0, category: "normal"},
+    {id: 68, question: "Payroll Setup در QuickBooks برای چیست؟", options: ["Configure employee pay", "Add new vendors", "Create reports", "Change theme"], correct: 0, category: "normal"},
+    {id: 69, question: "Company File در QuickBooks چه چیزی ذخیره می‌کند؟", options: ["All business data", "Only invoices", "Only expenses", "Only reports"], correct: 0, category: "normal"},
+    {id: 70, question: "QuickBooks Backup چه کاری انجام می‌دهد؟", options: ["Protect company data", "Delete old data", "Create new account", "Send reminders"], correct: 0, category: "normal"},
+    {id: 71, question: "Sales Tax Liability Report چه چیزی را نشان می‌دهد؟", options: ["Amount owed in sales tax", "Employee wages", "Customer list", "Vendor payments"], correct: 0, category: "normal"},
+    {id: 72, question: "Batch Invoicing برای چه استفاده می‌شود؟", options: ["Sending invoices to many customers", "Paying multiple bills", "Creating payrolls", "Importing data"], correct: 0, category: "normal"},
+    {id: 73, question: "Custom Fields چه کاری انجام می‌دهند؟", options: ["Add personalized info", "Delete old info", "Change interface", "Lock invoices"], correct: 0, category: "normal"},
+    {id: 74, question: "Multi-Currency چه کاری انجام می‌دهد؟", options: ["Using different currencies", "Limiting users", "Deleting files", "Creating passwords"], correct: 0, category: "normal"},
+    {id: 75, question: "Reports Center چه چیزی ارائه می‌دهد؟", options: ["Access to all reports", "Employee records", "Vendor information", "Online help"], correct: 0, category: "normal"},
+    {id: 76, question: "Inventory Valuation Summary چه چیزی را نشان می‌دهد؟", options: ["Total value of stock", "Customer list", "Vendor payments", "Payroll deductions"], correct: 0, category: "normal"},
+    {id: 77, question: "Auto Backup چه کاری انجام می‌دهد؟", options: ["Data is saved automatically", "Manual backup only", "Deletes invoices", "Updates reports"], correct: 0, category: "normal"},
+    {id: 78, question: "Accountant's Copy چه کاربردی دارد؟", options: ["Sharing file with accountant", "Printing checks", "Paying taxes", "Editing payroll"], correct: 0, category: "normal"},
+    {id: 79, question: "Class Report برای چه استفاده می‌شود؟", options: ["Analyze data by category", "Count invoices", "Delete users", "Print forms"], correct: 0, category: "normal"},
+    {id: 80, question: "Bank Register چه چیزی نشان می‌دهد؟", options: ["List of all bank transactions", "Vendor bills", "Payroll setup", "Product prices"], correct: 0, category: "normal"}
+
+        // 80 سوال عادی دیگر...
+    ],
+    hard: [
+        // 20 سوال سخت
+        
+    {id: 1, question: "در QuickBooks، چه زمانی از Accountant's Copy استفاده می‌کنیم؟", options: ["To allow an accountant to make adjustments without affecting company data", "To print checks", "To create customer invoices", "To delete old transactions"], correct: 0, category: "hard"},
+    {id: 2, question: "در QuickBooks، چه تفاوتی بین QuickBooks Desktop و QuickBooks Online در مدیریت Inventory وجود دارد؟", options: ["Desktop allows advanced inventory tracking while Online has limited features", "Online has more features than Desktop", "Both have identical features", "Desktop cannot track inventory"], correct: 0, category: "hard"},
+    {id: 3, question: "در QuickBooks، چگونه می‌توان یک کلاس را به چندین تراکنش متصل کرد؟", options: ["Assign the class field to each transaction", "Merge all transactions manually", "Use the Payroll Center", "Only via reports"], correct: 0, category: "hard"},
+    {id: 4, question: "در QuickBooks، چه زمانی باید از Memorized Transaction استفاده کنیم؟", options: ["For recurring or repetitive transactions", "For one-time payments", "To delete invoices", "To reconcile bank accounts"], correct: 0, category: "hard"},
+    {id: 5, question: "در QuickBooks، چه تفاوتی بین Billable Expenses و Non-Billable Expenses وجود دارد؟", options: ["Billable expenses can be charged to customers, non-billable cannot", "Non-billable are always paid by vendors", "Both are automatically charged to customers", "Billable expenses are not recorded in reports"], correct: 0, category: "hard"},
+    {id: 6, question: "در QuickBooks، چه چیزی در Audit Trail قابل مشاهده است؟", options: ["All changes made by users, including edits and deletions", "Only invoices", "Only payroll transactions", "Only customer payments"], correct: 0, category: "hard"},
+    {id: 7, question: "در QuickBooks، چگونه می‌توان تراکنش‌های حذف شده را بازیابی کرد؟", options: ["From Audit Trail or Backup", "Cannot be recovered", "Only through Payroll Center", "Using Vendor Center"], correct: 0, category: "hard"},
+    {id: 8, question: "در QuickBooks، چه تفاوتی بین Inventory Valuation Summary و Inventory Stock Status by Item وجود دارد؟", options: ["Valuation Summary shows total value, Stock Status shows quantity", "Stock Status shows total value, Valuation Summary shows quantity", "Both show the same information", "Neither shows quantity"], correct: 0, category: "hard"},
+    {id: 9, question: "در QuickBooks، چگونه می‌توان چندین حساب بانکی را در یک بانک فیچر مدیریت کرد؟", options: ["Use Bank Feeds and assign each account separately", "Merge all accounts into one", "Only one account can be tracked", "Use Vendor Center"], correct: 0, category: "hard"},
+    {id: 10, question: "در QuickBooks، چه تفاوتی بین Class Tracking و Location Tracking وجود دارد؟", options: ["Class categorizes transactions by type, Location by physical location", "Class is for employees, Location for customers", "Both track inventory only", "Both are the same"], correct: 0, category: "hard"},
+    {id: 11, question: "در QuickBooks، چه زمانی از Reconcile Discrepancy Report استفاده می‌کنیم؟", options: ["When bank reconciliation does not match", "To print invoices", "To track inventory", "To manage payroll"], correct: 0, category: "hard"},
+    {id: 12, question: "در QuickBooks، چگونه می‌توان یک تراکنش را به چند پروژه (Job) اختصاص داد؟", options: ["Assign the job field to the transaction", "Merge projects manually", "Use Reports Center", "Only in Payroll"], correct: 0, category: "hard"},
+    {id: 13, question: "در QuickBooks، چه تفاوتی بین QuickBooks Desktop Enterprise Advanced Inventory و نسخه معمولی وجود دارد؟", options: ["Advanced Inventory allows serial numbers, lot tracking, multiple locations", "Regular has more features", "Both are identical", "Enterprise cannot track inventory"], correct: 0, category: "hard"},
+    {id: 14, question: "در QuickBooks، Preferred Vendor چه کاربردی دارد؟", options: ["Automatically suggests the vendor when creating purchase orders", "Deletes vendor transactions", "Creates invoices automatically", "Tracks customer payments"], correct: 0, category: "hard"},
+    {id: 15, question: "در QuickBooks، چگونه می‌توان چند کاربر را با سطوح دسترسی متفاوت مدیریت کرد؟", options: ["Through Users and Roles setup", "Only one admin can exist", "All users have same access", "Only via Payroll Center"], correct: 0, category: "hard"},
+    {id: 16, question: "در QuickBooks، چه تفاوتی بین Bill Payment و Check وجود دارد؟", options: ["Bill Payment pays existing bills, Check can be issued for anything", "Both are identical", "Bill Payment is for payroll", "Check only tracks deposits"], correct: 0, category: "hard"},
+    {id: 17, question: "در QuickBooks، چگونه می‌توان چندین یادداشت (Memo) را در تراکنش‌ها ثبت کرد؟", options: ["Use the Memo field for each transaction", "Memo field cannot be used", "Only via Reports", "Only in Payroll Center"], correct: 0, category: "hard"},
+    {id: 18, question: "در QuickBooks، Undeposited Funds چه کاربردی دارد؟", options: ["Temporarily holds payments before depositing", "Represents bank fees", "Is for vendor payments only", "Deletes old transactions"], correct: 0, category: "hard"},
+    {id: 19, question: "در QuickBooks، چه تفاوتی بین Audit Trail Report و Transaction List by Date وجود دارد؟", options: ["Audit Trail shows all changes including edits/deletes, Transaction List shows basic transactions", "Both are identical", "Transaction List shows edits, Audit Trail shows only invoices", "Neither tracks changes"], correct: 0, category: "hard"},
+    {id: 20, question: "در QuickBooks، چگونه می‌توان از نسخه پشتیبان (Backup) برای بازیابی اطلاعات کامل استفاده کرد؟", options: ["Restore the company file from a backup", "Edit current file", "Use Payroll Center", "Only export reports"], correct: 0, category: "hard"}
+
+    ],
+    accounting: [
+        // 20 سوال حسابداری
+       
+    {id: 1, question: "دارایی‌ها (Assets) به چه معنا هستند؟", options: ["Resources owned by a company", "Company debts", "Owner's equity", "Revenue"], correct: 0, category: "accounting-basic"},
+    {id: 2, question: "بدهی‌ها (Liabilities) در اکاونتینګ چه هستند؟", options: ["Obligations owed to outsiders", "Company profits", "Customer payments", "Cash only"], correct: 0, category: "accounting-basic"},
+    {id: 3, question: "Equity در ترازنامه چه چیزی را نشان می‌دهد؟", options: ["Owner's residual interest", "Total liabilities only", "Total assets only", "Bank balance"], correct: 0, category: "accounting-basic"},
+    {id: 4, question: "Revenue در حسابداری چیست؟", options: ["Income earned from business activities", "Money paid to vendors", "Owner investments", "Employee salaries"], correct: 0, category: "accounting-basic"},
+    {id: 5, question: "Expense در حسابداری به چه معناست؟", options: ["Costs incurred to earn revenue", "Customer payments", "Owner withdrawals", "Loan payments"], correct: 0, category: "accounting-basic"},
+    {id: 6, question: "Accrual Basis Accounting چه مفهومی دارد؟", options: ["Record revenues and expenses when earned/incurred", "Record only when cash is received", "Record only assets", "Record only liabilities"], correct: 0, category: "accounting-basic"},
+    {id: 7, question: "در اکاونتینګ، Journal Entry چه کاری انجام می‌دهد؟", options: ["Records financial transactions", "Pays employees", "Prints invoices", "Tracks inventory"], correct: 0, category: "accounting-basic"},
+    {id: 8, question: "Balance Sheet نشان دهنده چه است؟", options: ["Assets, liabilities, and equity", "Income only", "Expenses only", "Cash only"], correct: 0, category: "accounting-basic"},
+    {id: 9, question: "Statement of Cash Flows چه چیزی را نشان می‌دهد؟", options: ["Cash inflows and outflows", "Profit only", "Equity only", "Accounts payable only"], correct: 0, category: "accounting-basic"},
+    {id: 10, question: "در حسابداری، Trial Balance چه کاری انجام می‌دهد؟", options: ["Ensures total debits equal total credits", "Records payroll", "Prints invoices", "Tracks inventory"], correct: 0, category: "accounting-basic"},
+
+    {id: 1, question: "در اکاونتینګ، تفاوت بین FIFO و LIFO در محاسبه موجودی چیست؟", options: ["FIFO assumes oldest inventory sold first, LIFO newest sold first", "LIFO uses oldest inventory first", "Both calculate the same", "Only FIFO calculates profit"], correct: 0, category: "accounting-hard"},
+    {id: 2, question: "در حسابداری، Deferred Revenue چیست؟", options: ["Payment received before earning revenue", "Revenue already earned", "Loan payable", "Expense accrued"], correct: 0, category: "accounting-hard"},
+    {id: 3, question: "در اکاونتینګ، Allowance for Doubtful Accounts چه کاری انجام می‌دهد؟", options: ["Estimates uncollectible receivables", "Tracks payroll", "Records revenue", "Calculates assets"], correct: 0, category: "accounting-hard"},
+    {id: 4, question: "تفاوت بین Capital Lease و Operating Lease چیست؟", options: ["Capital lease records asset & liability; Operating lease only expense", "Operating lease records asset & liability", "Both are identical", "Only Capital lease is tax-free"], correct: 0, category: "accounting-hard"},
+    {id: 5, question: "در حسابداری، Accrued Expenses چه هستند؟", options: ["Expenses incurred but not yet paid", "Expenses paid in cash", "Assets purchased", "Revenue earned"], correct: 0, category: "accounting-hard"},
+    {id: 6, question: "در اکاونتینګ، چه زمانی Goodwill شناسایی می‌شود؟", options: ["When a company acquires another for more than fair value", "When cash is received", "When inventory is purchased", "During payroll processing"], correct: 0, category: "accounting-hard"},
+    {id: 7, question: "در اکاونتینګ، چه تفاوتی بین Current Assets و Non-Current Assets وجود دارد؟", options: ["Current assets are expected to convert to cash within 1 year", "Non-current assets are cash only", "Both are liabilities", "Both are revenues"], correct: 0, category: "accounting-hard"},
+    {id: 8, question: "در حسابداری، Depreciation Expense چگونه محاسبه می‌شود؟", options: ["Allocating cost of asset over useful life", "Total cash paid", "Revenue earned", "Liabilities increased"], correct: 0, category: "accounting-hard"},
+    {id: 9, question: "در اکاونتینګ، Contingent Liabilities چه هستند؟", options: ["Possible obligations depending on future events", "Current assets", "Owner's equity", "Revenue already earned"], correct: 0, category: "accounting-hard"},
+    {id: 10, question: "در حسابداری، تفاوت بین Accounts Receivable و Notes Receivable چیست؟", options: ["Notes receivable have formal written promise and interest", "Accounts receivable include interest", "Both are not collectible", "Notes receivable are expenses"], correct: 0, category: "accounting-hard"}
+
+    ]
+};
+
+// متغیرهای آزمون
+let currentTest = {
+    questions: [],
+    currentQuestionIndex: 0,
+    userAnswers: [],
+    timeLeft: 900, // 30 دقیقه
+    timerInterval: null,
+    score: 0
+};
+
+// نمایش آزمون
+function showTestYourself() {
+    console.log("Test Yourself clicked");
+    
+    // انتخاب تصادفی سوالات
+    const normalQuestions = getRandomQuestions(allQuestions.normal, 20);
+    const hardQuestions = getRandomQuestions(allQuestions.hard, 5);
+    const accountingQuestions = getRandomQuestions(allQuestions.accounting, 5);
+    
+    currentTest.questions = [...normalQuestions, ...hardQuestions, ...accountingQuestions];
+    currentTest.currentQuestionIndex = 0;
+    currentTest.userAnswers = new Array(30).fill(null);
+    currentTest.timeLeft = 900;
+    currentTest.score = 0;
+    
+    console.log("Total questions selected:", currentTest.questions.length);
+    
+    // پاک کردن تایمر قبلی
+    if (currentTest.timerInterval) {
+        clearInterval(currentTest.timerInterval);
+    }
+    
+    startTimer();
+    document.getElementById('testModal').style.display = 'flex';
+    displayQuestion();
+}
+
+// انتخاب سوالات تصادفی
+function getRandomQuestions(questionPool, count) {
+    const shuffled = [...questionPool].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+// نمایش سوال
+function displayQuestion() {
+    const question = currentTest.questions[currentTest.currentQuestionIndex];
+    const testContent = document.getElementById('testContent');
+    
+    // به‌روزرسانی اطلاعات
+    document.getElementById('currentQuestion').textContent = currentTest.currentQuestionIndex + 1;
+    document.getElementById('totalQuestions').textContent = currentTest.questions.length;
+    
+    // به‌روزرسانی نوار پیشرفت
+    const progress = ((currentTest.currentQuestionIndex + 1) / currentTest.questions.length) * 100;
+    document.getElementById('progressBar').style.width = `${progress}%`;
+    
+    // ایجاد HTML سوال
+    let questionHTML = `
+        <div class="question-container">
+            <div class="question-text">${currentTest.currentQuestionIndex + 1}. ${question.question}</div>
+            <div class="options-container">
+    `;
+    
+    question.options.forEach((option, index) => {
+        const isSelected = currentTest.userAnswers[currentTest.currentQuestionIndex] === index;
+        questionHTML += `
+            <div class="option ${isSelected ? 'selected' : ''}" onclick="selectOption(${index})">
+                ${String.fromCharCode(65 + index)}) ${option}
+            </div>
+        `;
+    });
+    
+    questionHTML += `</div></div>`;
+    testContent.innerHTML = questionHTML;
+    updateNavigationButtons();
+}
+
+// انتخاب گزینه
+function selectOption(optionIndex) {
+    currentTest.userAnswers[currentTest.currentQuestionIndex] = optionIndex;
+    displayQuestion();
+}
+
+// به‌روزرسانی دکمه‌ها
+function updateNavigationButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    prevBtn.disabled = currentTest.currentQuestionIndex === 0;
+    
+    if (currentTest.currentQuestionIndex === currentTest.questions.length - 1) {
+        nextBtn.style.display = 'none';
+        submitBtn.style.display = 'block';
+    } else {
+        nextBtn.style.display = 'block';
+        submitBtn.style.display = 'none';
+    }
+}
+
+// سوال بعدی
+function nextQuestion() {
+    if (currentTest.currentQuestionIndex < currentTest.questions.length - 1) {
+        currentTest.currentQuestionIndex++;
+        displayQuestion();
+    }
+}
+
+// سوال قبلی
+function previousQuestion() {
+    if (currentTest.currentQuestionIndex > 0) {
+        currentTest.currentQuestionIndex--;
+        displayQuestion();
+    }
+}
+
+// تایمر
+function startTimer() {
+    updateTimerDisplay();
+    currentTest.timerInterval = setInterval(() => {
+        currentTest.timeLeft--;
+        updateTimerDisplay();
+        if (currentTest.timeLeft <= 0) {
+            submitTest();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(currentTest.timeLeft / 60);
+    const seconds = currentTest.timeLeft % 60;
+    document.getElementById('timer').textContent = `زمان: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// ارسال آزمون
+function submitTest() {
+    // توقف تایمر
+    if (currentTest.timerInterval) {
+        clearInterval(currentTest.timerInterval);
+    }
+    
+    // محاسبه نمره
+    let score = 0;
+    currentTest.questions.forEach((question, index) => {
+        if (currentTest.userAnswers[index] === question.correct) {
+            score++;
+        }
+    });
+    
+    currentTest.score = score;
+    showResults(score);
+}
+
+// نمایش نتایج
+function showResults(score) {
+    const testContent = document.getElementById('testContent');
+    const totalQuestions = currentTest.questions.length;
+    const percentage = (score / totalQuestions) * 100;
+    
+    // محاسبه نمره هر دسته
+    const normalScore = calculateCategoryScore('normal');
+    const hardScore = calculateCategoryScore('hard');
+    const accountingScore = calculateCategoryScore('accounting');
+    
+    let resultsHTML = `
+        <div class="results-container">
+            <div class="results-title">🎉 نتایج آزمون 🎉</div>
+            <div class="score-display">${score}/${totalQuestions}</div>
+            <div style="font-size: 24px; margin-bottom: 30px; color: #ffd600;">${percentage.toFixed(1)}%</div>
+            
+            <div class="results-details">
+                <div class="result-item"> سوالات عادی: ${normalScore}</div>
+                <div class="result-item"> سوالات سخت: ${hardScore}</div>
+                <div class="result-item"> سوالات حسابداری: ${accountingScore}</div>
+            </div>
+            
+            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                <button class="test-btn" onclick="restartTest()">آزمون مجدد</button>
+                <button class="test-btn" onclick="closeTestModal()" style="background: linear-gradient(135deg, #78909c, #546e7a);">بستن</button>
+            </div>
+        </div>
+    `;
+    
+    testContent.innerHTML = resultsHTML;
+    document.querySelector('.test-navigation').style.display = 'none';
+}
+
+// محاسبه نمره هر دسته
+function calculateCategoryScore(category) {
+    let correct = 0;
+    let total = 0;
+    
+    currentTest.questions.forEach((question, index) => {
+        if (question.category === category) {
+            total++;
+            if (currentTest.userAnswers[index] === question.correct) {
+                correct++;
+            }
+        }
+    });
+    
+    return `${correct}/${total}`;
+}
+
+// شروع مجدد آزمون
+function restartTest() {
+    document.querySelector('.test-navigation').style.display = 'flex';
+    showTestYourself();
+}
+
+// بستن آزمون
+function closeTestModal() {
+    document.getElementById('testModal').style.display = 'none';
+    if (currentTest.timerInterval) {
+        clearInterval(currentTest.timerInterval);
+    }
+}
+
+// اضافه کردن event listener برای کلیدهای کیبورد
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('testModal').style.display === 'flex') {
+        if (e.key === 'ArrowRight') {
+            nextQuestion();
+        } else if (e.key === 'ArrowLeft') {
+            previousQuestion();
+        } else if (e.key === 'Escape') {
+            closeTestModal();
+        }
     }
 });
 
