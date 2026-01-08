@@ -57,7 +57,7 @@
         <div class="test-navigation">
             <button class="test-btn" id="prevBtn" onclick="previousQuestion()">قبلی</button>
             <button class="test-btn" id="nextBtn" onclick="nextQuestion()">بعدی</button>
-            <button class="test-btn" id="submitBtn" onclick="submitTest()">پایان آزمون</button>
+            <button class="test-btn" id="submitBtn" onclick="submitTest()">پایان امتحان</button>
         </div>
     </div>
 </div>
@@ -2196,16 +2196,11 @@ function showResults(score) {
     
     let resultsHTML = `
         <div class="results-container">
-            <div class="results-title">🎉 نتایج آزمون 🎉</div>
+            <div class="results-title"> نتایج امتحان</div>
             <div class="score-display">${score}/${totalQuestions}</div>
             <div style="font-size: 24px; margin-bottom: 30px; color: #ffd600;">${percentage.toFixed(1)}%</div>
             
-            <div class="results-details">
-                <div class="result-item"> سوالات عادی: ${normalScore}</div>
-                <div class="result-item"> سوالات سخت: ${hardScore}</div>
-                <div class="result-item"> سوالات حسابداری: ${accountingScore}</div>
-            </div>
-            
+           
             <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
                 <button class="test-btn" onclick="restartTest()">آزمون مجدد</button>
                 <button class="test-btn" onclick="closeTestModal()" style="background: linear-gradient(135deg, #78909c, #546e7a);">بستن</button>
